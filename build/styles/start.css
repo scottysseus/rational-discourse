@@ -1,0 +1,10 @@
+#scene-start {
+    display: grid;
+    justify-items: center;
+    grid-template-columns: auto;
+    grid-template-rows: 50% 25% 25%;
+}
+
+#scene-start-menu {
+
+}

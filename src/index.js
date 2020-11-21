@@ -8,7 +8,7 @@ export const WIDTH = 800;
 
 PIXI.settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = false;
 let app = new PIXI.Application({ width: WIDTH, height: HEIGHT });
-document.body.appendChild(app.view);
+// document.body.appendChild(app.view);
 
 app.renderer.backgroundColor = 0x33ccff;
 
@@ -16,10 +16,9 @@ const loader = PIXI.Loader.shared;
 
 loader.add('bunny', 'assets/bunny-sheet.png');
 
-let player, frames = [];
+let player;
 
-let letter = create
-Letter('A', {x: 100, y: 10});
+let letter = createLetter('A', {x: 100, y: 10});
 
 loader.load((loader, resources) => {
     let frames = [];

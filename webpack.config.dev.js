@@ -14,10 +14,18 @@ module.exports = {
     },
     plugins: [
         new CopyWebpackPlugin({
-            patterns: [{
-                from: 'build/assets',
-                to: 'assets'
-            }]
+            patterns: [
+                {
+                    from: 'build/assets',
+                    to: 'assets'
+            
+                },
+                {
+                    from: 'build/styles',
+                    to: 'styles'
+            
+                }
+            ]
         }),
         new HTMLWebpackPlugin({
             template: 'build/index.html',

@@ -35,9 +35,8 @@ In each round,
 2. The operatives compete in a typing competition to tweet the most propaganda snippets to influence the voter.
 
 
-# Events and Interesting Map Regions
-
 ## Random Events
+
 ## Interesting Map Locations
 - Town halls
 - Fast Food Joints

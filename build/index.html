@@ -2,45 +2,46 @@
 <html>
 
 <head>
-    <title>Bunny</title>
-
-    <style type="text/css">
-        *, *:before, *:after { box-sizing: border-box; }
-        html, body {
-            margin: 0;
-        }
-        body {
-            display: flex;
-            justify-content: center;
-            background-color: #222;
-        }
-        canvas {
-            border: 2px solid #333;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: -webkit-crisp-edges;
-            image-rendering: pixelated;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);    
-        }
-    </style>
+    <title>Citizens United</title>
+    <link rel="stylesheet" type="text/css" href="./styles/index.css">
+    <link rel="stylesheet" type="text/css" href="./styles/start.css">
 </head>
 
 <body>
     <div id="wrapper-main">
-    <div id="news-cycle-scene">
-        <div id="feed-queue-wrapper">
-            <></queue>
-            <div id="tweet-feed"></div>
-            
+        <div id="scene-start">
+            <h1>Citizens United</h1>
+                <button>Start a Game</button>
+                <button>Join a Game</button>
         </div>
-        <div id="tweet-input">
-            
-        </div>
-
     </div>
-</div>
+
+    <div id="scene-pregame-lobby"></div>
+
+    <div id="scene-choose-your-agenda"></div>
+
+    <div id="scene-win-the-news-cycle">
+        <div id="ui-top">
+            <div id="tweet-queue">
+            </div>
+            <div id="influence-bar">
+            </div>
+            <div id="tweet-stream">
+            </div>
+        </div>
+        <div id="ui-bottom">
+            <div id="tweet-input">
+            </div>
+        </div>
+    </div>
+
+    <div id="scene-watch-the-voter">
+    </div>
+
+    <div id="scene-end-game">
+    </div>
+    </div>
+
 </body>
 
 </html>
