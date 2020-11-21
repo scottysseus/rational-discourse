@@ -46,6 +46,18 @@ export async function connectToServer() {
     },
     onEndGame(callback) {
       socket.on('begin-endgame', callback);
+    },
+    /**
+     * @param {string} tweet
+     */
+    sendTweet(tweet) {
+      socket.to(lobbyId).emit('tweet', socket.id, tweet);
+    },
+    /**
+     * @param {function} callback
+     */
+    onTweet(callback) {
+      socket.on('tweet', callback);
     }
   };
 }

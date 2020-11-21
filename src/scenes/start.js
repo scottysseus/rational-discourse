@@ -27,7 +27,7 @@ export class StartScene extends React.Component {
             if (event.target.value === "") {
                 lobbyInvalid = true;
             }
-            this.setState({lobbyId: event.target.value})
+            this.setState({lobbyId: event.target.value, lobbyInvalid: lobbyInvalid});
         };
     }
 

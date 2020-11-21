@@ -19,30 +19,52 @@ body {
     image-rendering: -webkit-crisp-edges;
     image-rendering: pixelated;
     position: absolute;
-    width: 500px;
-    height: 500px;
+    width: 960px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    padding: 10px;
 }
 
 .tweet {
-    background-color: #4646ee;
-    border-radius: 20px;
+    background-color: #eee;
+    border-radius: 14px;
     margin-bottom: 4px;
     padding: 10px;
-    border: 1px solid #eeeeee;
-    color: #ffffff;
-    font-weight: bold;
+    border: 1px solid #ccc;
+    color: #111;
 }
 
 #scene-battle {
-    border: 1px solid #0000cc;
+    border: 1px solid #eee;
+    padding: 14px;
 }
 
 #tweet-header {
     text-align: center;
     font-size: 32px;
+    font-weight: bold;
+}
+
+#tweet-queue {
+    width: 20%;
+    float: left;
+    padding: 24px;
+}
+
+#tweet-queue-header {
+    text-align: center;
+    font-weight: bold;
+}
+
+#tweet-stream {
+    width: 80%;
+    float: left;
+    padding: 24px;
+}
+
+#tweet-stream-header {
+    text-align: center;
     font-weight: bold;
 }
 
@@ -53,9 +75,28 @@ body {
     text-align: center;
     font-weight: bold;
     font-size: 24px;
-    color: #00cc00;
 }
 
 #tweet-input-textarea {
     width: 100%;
+    resize: none;
+}
+
+#tweet-prompt {
+    font-weight: bold;
+}
+
+#tweet-prompt-complete {
+    color: #00aa00;
+    background-color: #9affa7;
+    font-weight: bold;
+}
+
+#tweet-input-box {
+    text-align: center;
+    font-size: 24px;
+}
+
+.clear-fix {
+    clear: both;
 }

@@ -24,7 +24,7 @@ export default class App extends React.Component {
         <h1>Rational Discourse</h1>
         <StartScene client={this.props.client} onStart={this.onStart.bind(this)} onJoin={this.onJoin.bind(this)} />
         {/* <AgendaScene name="myscene" /> */}
-        <BattleScene />
+        <BattleScene client={this.props.client} />
       </Fragment>
     );
   }
