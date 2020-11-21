@@ -1,6 +1,14 @@
 import React, { Fragment } from 'react';
 import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 
+const MAX_PARTY_NAME_LENGTH = 16;
+function isPartyNameValid(name) {
+    if (!name || name.length > MAX_PARTY_NAME_LENGTH) {
+        return false
+    }
+    return true;
+}
+
 export class StartScene extends React.Component {
 
     constructor(props) {
@@ -16,7 +24,7 @@ export class StartScene extends React.Component {
 
         this.changePartyName = (event) => {
             let partyInvalid = false;
-            if (event.target.value === "") {
+            if (!isPartyNameValid(event.target.value)) {
                 partyInvalid = true;
             }
             this.setState({partyName: event.target.value, partyInvalid: partyInvalid});
@@ -32,7 +40,7 @@ export class StartScene extends React.Component {
     }
 
     startGame() {
-        if(this.state.partyName === "") {
+        if(!isPartyNameValid(this.state.partyName)) {
             this.setState({partyInvalid: true});
             return
         }
@@ -50,7 +58,12 @@ export class StartScene extends React.Component {
             return
         }
 
-        const joinPromise = this.client.joinGame({name: this.state.lobbyId});
+        if(!isPartyNameValid(this.state.partyName)) {
+            this.setState({partyInvalid: true});
+            return
+        }
+
+        const joinPromise = this.client.joinGame(this.state.lobbyId, {name: this.state.partyName});
         joinPromise.then(lobby => {
             this.closeJoinDialog();
             this.props.onJoin(lobby);
@@ -61,10 +74,10 @@ export class StartScene extends React.Component {
         return <Fragment>
             <Container className="justify-content-md-center">
                 <Row className="justify-content-center">
-                    <Col className="align-self-center"><Button onClick={this.openStartDialog}>Start a Game</Button></Col>
+                    <Col className="align-self-center"><Button className="toot-blue-bg" onClick={this.openStartDialog}>Start a Game</Button></Col>
                 </Row>
                 <Row className="justify-content-center">
-                    <Col className="align-self-center"><Button onClick={this.openJoinDialog}>Join a Game</Button></Col>
+                    <Col className="align-self-center"><Button className="toot-blue-bg" onClick={this.openJoinDialog}>Join a Game</Button></Col>
                 </Row>
             </Container>
             <Modal centered show={this.state.startOpen} onHide={this.closeStartDialog}>
@@ -89,6 +102,11 @@ export class StartScene extends React.Component {
                     <Form.Group controlId="exampleForm.ControlInput1">
                         <Form.Label>Enter the lobby code:</Form.Label>
                         <Form.Control isInvalid={this.state.lobbyInvalid} required onChange={this.changeLobbyId} value={this.state.lobbyId} type="text"/>
+                        
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Enter a name for your political party:</Form.Label>
+                        <Form.Control isInvalid={this.state.partyInvalid} value={this.state.partyName} onChange={this.changePartyName} type="text" placeholder="Greenback Labor Party" />
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>

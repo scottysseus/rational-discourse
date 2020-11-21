@@ -55,7 +55,7 @@ function Lobby(io) {
     id: uuid.v4(),
     players: new Map(),
     playerCount: 0,
-    currentRound: 0,
+    currentRound: -1,
     rounds: [],
     state: GameStates.PREGAME,
     voter: {
@@ -89,19 +89,19 @@ function Lobby(io) {
 
   const goToWatchPhase = () => {
     // Determine winning agenda
-    let maxScore = [null, 0]
-    for (score of scores.entries) {
-      if (score[1] > maxScore[1]) {
-        maxScore = score;
-      }
-    }
+    // let maxScore = [null, 0]
+    // for (score of scores.entries) {
+    //   if (score[1] > maxScore[1]) {
+    //     maxScore = score;
+    //   }
+    // }
 
-    // Lookup agenda by player id
-    const winningAgenda = self.rounds[self.currentRound].agendas(maxScore[0]);
-    self.rounds[self.currentRound].winningAgenda = winningAgenda;
-    io.of('/').to(self.id).emit(`begin-${GameStates.WATCH}`, {
-      winningAgenda
-    });
+    // // Lookup agenda by player id
+    // const winningAgenda = self.rounds[self.currentRound].agendas(maxScore[0]);
+    // self.rounds[self.currentRound].winningAgenda = winningAgenda;
+    // io.of('/').to(self.id).emit(`begin-${GameStates.WATCH}`, {
+    //   winningAgenda
+    // });
 
     applyAgendaToVoter(winningAgenda);
 
@@ -141,6 +141,7 @@ function Lobby(io) {
 
   const addPlayer = (player) => {
     player.socket.join(self.id);
+    console.log('Socket: ', player.socket.id, ' joined ', self.id);
     self.players.set(player.socket.id, player);
     self.playerCount += 1;
     if (self.playerCount == 2) {
@@ -149,8 +150,8 @@ function Lobby(io) {
   };
 
   const startRound = () => {
-    rounds.push(Round());
-    currentRound += 1;
+    self.rounds.push(Round());
+    self.currentRound += 1;
   };
 
   const setAgenda = (playerId, agenda) => {

@@ -16,10 +16,16 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
+
 io.on('connection', (socket) => {
   console.log('User Conncected', socket.id);
   socket.on('disconnect', () => {
     console.log('User Disconnected', socket.id);
+  });
+
+  socket.on('tweet', ({playerName, tweet, lobbyId}) => {
+    console.log(playerName, 'tweeted', tweet, 'to', lobbyId);
+    io.in(lobbyId).emit('tweet', {playerName, tweet});
   });
 
   socket.on('start-game', async (player, callback) => {
@@ -35,7 +41,7 @@ io.on('connection', (socket) => {
   socket.on('join-game', async (lobbyId, player, callback) => {
     player.socket = socket;
 
-    const lobby = joinLobby(lobby.id, player);
+    const lobby = joinLobby(lobbyId, player);
 
     callback(lobby);
   });

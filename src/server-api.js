@@ -3,6 +3,8 @@ import { io } from 'socket.io-client';
 export async function connectToServer() {
   const socket = io('http://localhost:3001');
 
+  let lobbyId = null;
+  let playerName = '<unset>';
   const connected = new Promise((resolve, reject) => {
     socket.on('connect', () => { 
       socket.emit('echo', {msg: 'foo'}, (response) => { console.log('Got this server', response)});
@@ -19,18 +21,26 @@ export async function connectToServer() {
      * @return {}
      */
     async startGame(playerInfo) {
-      return new Promise((resolve, reject) => {
+      const p = new Promise((resolve, reject) => {
         socket.emit('start-game', playerInfo, resolve);
       });
+
+      const lobby = await p;
+      playerName = playerInfo.name;
+      lobbyId = lobby.id;
     },
     /**
      * @param lobbyId the uuid of the lobby
      * @param playerInfo.name Name of the player / party
      */
     async joinGame(lobbyId, playerInfo) {
-      return new Promise((resolve, reject) => {
+      const p = new Promise((resolve, reject) => {
         socket.emit('join-game', lobbyId, playerInfo, resolve);
       });
+      
+      const lobby = await p;
+      playerName = playerInfo.name;
+      lobbyId = lobby.id;
     },
     /**
      * @
@@ -51,7 +61,8 @@ export async function connectToServer() {
      * @param {string} tweet
      */
     sendTweet(tweet) {
-      socket.to(lobbyId).emit('tweet', socket.id, tweet);
+      console.log('Sending Tweet:', tweet);
+      socket.emit('tweet', {playerName, tweet});
     },
     /**
      * @param {function} callback

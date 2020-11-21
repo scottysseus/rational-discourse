@@ -97,6 +97,20 @@ body {
     font-size: 24px;
 }
 
+
+#tooter {
+    height: auto;
+}
+
+#tooter-header {
+    color: #1eabffff;
+}
+
 .clear-fix {
     clear: both;
+}
+
+.toot-blue-bg {
+    background-color: #1eabffff !important;
+    border: 0px !important;
 }

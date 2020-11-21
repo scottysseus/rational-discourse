@@ -26,13 +26,11 @@ export class BattleScene extends Component {
         this.state = {
             tweets: TWEETS,
             tweetQueue: queue,
+            tweetStream: [],
             prompt: prompt,
             typerKey: Date.now()
         };
-        this.props.client.onTweet((tweetObject) => {
-            const { playerName, tweet } = tweetObject;
-            // TODO: Put this tweet in the message stream in the middle
-        });
+        this.props.client.onTweet(this.onTweetReceived.bind(this));
     }
 
     onTyped(prompt) {
@@ -41,6 +39,13 @@ export class BattleScene extends Component {
         queue.unshift(TWEETS[getRandomInt(TWEETS.length)])
         this.setState({prompt: newPrompt, tweetQueue: queue, typerKey: Date.now()});
         this.props.client.sendTweet(prompt);
+    }
+
+    onTweetReceived( { playerName, tweet }) {
+        console.log('received tweet', tweet);
+        let tweetStream = this.state.tweetStream;
+        tweetStream.push({party: playerName, tweet: tweet});
+        this.setState({tweetStream: tweetStream});
     }
 
     render() {
@@ -56,7 +61,7 @@ export class BattleScene extends Component {
                 <div id="tweet-stream">
                     <div id="tweet-stream-header">Stream</div>
                     {(() =>
-                        this.state.tweetQueue.map((tweet, id) => <Tweet className="tweet" text={tweet} key={id} />)
+                        this.state.tweetStream.map((tweet, id) => <Tweet className="tweet" tweet={tweet} key={id} />)
                     )()}
                 </div>
                 <div className="clear-fix" />

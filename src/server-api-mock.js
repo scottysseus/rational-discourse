@@ -7,9 +7,9 @@ export function MockClient() {
          * @param {string} tweet
          */
         sendTweet(tweet) {
-            socket.to(...).emit('tweet', socket.id, tweet);
+            syncBuffer.push(tweet);
         },
-        
+
         /**
          * @param {function} callback
          */

@@ -21,9 +21,9 @@ export default class App extends React.Component {
   render() {
     return (
       <Fragment>
-        <h1>Rational Discourse</h1>
+        <h1 id="tooter-header">tooter</h1>
+        <img id="tooter" src="./assets/tooter.png"/>
         <StartScene client={this.props.client} onStart={this.onStart.bind(this)} onJoin={this.onJoin.bind(this)} />
-        {/* <AgendaScene name="myscene" /> */}
         <BattleScene client={this.props.client} />
       </Fragment>
     );
