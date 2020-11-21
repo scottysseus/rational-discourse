@@ -26,7 +26,36 @@ body {
     transform: translate(-50%, -50%);
 }
 
+.tweet {
+    background-color: #4646ee;
+    border-radius: 20px;
+    margin-bottom: 4px;
+    padding: 10px;
+    border: 1px solid #eeeeee;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+#scene-battle {
+    border: 1px solid #0000cc;
+}
+
+#tweet-header {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+}
+
 #tweet-input {
-    border: 1px solid #ff0000;
-    height: 200px;
+}
+
+#tweet-active {
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    color: #00cc00;
+}
+
+#tweet-input-textarea {
+    width: 100%;
 }

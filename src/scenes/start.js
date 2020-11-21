@@ -21,6 +21,7 @@ export class StartScene extends React.Component {
             }
             this.setState({partyName: event.target.value, partyInvalid: partyInvalid});
         };
+
         this.changeLobbyId = (event) => {
             let lobbyInvalid = false;
             if (event.target.value === "") {
@@ -38,6 +39,7 @@ export class StartScene extends React.Component {
         const startPromise = this.client.startGame({name: this.state.partyName});
         
         startPromise.then(lobby => {
+            this.closeStartDialog();
             this.props.onStart(lobby);
         });
     }
@@ -47,6 +49,12 @@ export class StartScene extends React.Component {
             this.setState({lobbyInvalid: true});
             return
         }
+
+        const joinPromise = this.client.joinGame({name: this.state.lobbyId});
+        joinPromise.then(lobby => {
+            this.closeJoinDialog();
+            this.props.onJoin(lobby);
+        });
     }
 
     render() {

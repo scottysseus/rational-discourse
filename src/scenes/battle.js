@@ -1,29 +1,46 @@
-import { BaseScene } from "./scene";
 import React, { Component, Fragment } from 'react';
+import { ListGroup } from 'react-bootstrap';
+
 export class BattleScene extends Component {
+
     constructor(props) {
       super(props);
-      this.state = {tweet: 'We are the best.' };
+      this.state = {
+          tweets: ['We are the best.',
+                   'A purple wave is coming!',
+                   'Vote purple!',
+                   'Jobs! We need jobs!',
+                   'Purple is Perfect.']
+       };
     }
   
     handleKeyPress(event) {
-        console.log(event.target.value);
+        console.log(event.key);
+        let tweets = this.state.tweets;
+        tweets.push("yet another tweet! go purp!");
+        this.setState({tweets: tweets});
     }
 
     render() {
-        return <Fragment>
-            <h2> Win the News Cycle! </h2>
-            <div className="row">
-                <div id="conversation">
-                </div>
+        return (
+        <div id="scene-battle">
+            <div id="tweet-header">Win the News Cycle!</div>
+            <div id="tweet-queue">
+                {(() => {
+                    let tweets = [];
+                    let id = 1;
+                    this.state.tweets.forEach(tweet =>{tweets.push(<div className="tweet" key={id}>{tweet}</div>); id++;});
+                    return tweets;  
+                })()}
             </div>
-            <div className="row">
-                <div className="form-group col-md-12">
-                    <label for="exampleFormControlTextarea1">Type your tweet:</label>
-                    <q>{this.state.tweet}</q>
-                    <textarea className="form-control" id="exampleFormControlTextarea1" rows="10" onKeyPress={this.handleKeyPress.bind(this)}></textarea>
-                </div>
+            <div id="tweet-stream">
             </div>
-        </Fragment>;
+            <div id="tweet-active">
+                {this.state.tweets[0]}
+            </div>
+            <div id="tweet-input">
+                <textarea id="tweet-input-textarea"></textarea>
+            </div>
+        </div>);
     }
 }
