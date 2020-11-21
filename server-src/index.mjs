@@ -1,11 +1,6 @@
-const dataModel = {
-  lobbies: {
-
-  }
-};
-
 import express from 'express';
 import { createServer } from 'http';
+import { createLobby, joinLobby } from './lobby.mjs';
 import {Server } from 'socket.io';
 
 const app = express();
@@ -30,7 +25,7 @@ io.on('connection', (socket) => {
   socket.on('start-game', async (player, callback) => {
     player.socket = socket;
 
-    const lobby = createLobby();
+    const lobby = createLobby(io);
 
     joinLobby(lobby.id, player);
     
@@ -48,7 +43,6 @@ io.on('connection', (socket) => {
   socket.on('echo', async (msgObject, callback) => {
     callback(msgObject);
   });
-
 });
 
 http.listen(3001, () => {

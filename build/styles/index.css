@@ -12,11 +12,9 @@ body {
 body {
     display: flex;
     justify-content: center;
-    background-color: #222;
 }
 
 #wrapper-main {
-    border: 2px solid #333;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-crisp-edges;
     image-rendering: pixelated;
@@ -26,4 +24,9 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+#tweet-input {
+    border: 1px solid #ff0000;
+    height: 200px;
 }

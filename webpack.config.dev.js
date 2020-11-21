@@ -2,6 +2,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const path = require("path");
 
+const babelPresetEnv = require.resolve('@babel/preset-env');
+const babelPresetReact = require.resolve('@babel/preset-react');
+
 module.exports = {
     mode: 'development',
     devServer: {
@@ -14,8 +17,8 @@ module.exports = {
     },
     resolve: {
         alias: {
-            vue: 'vue/dist/vue.js'
-        },
+            vue: 'vue/dist/vue.js',
+        }
     },
     plugins: [
         new CopyWebpackPlugin({
@@ -41,6 +44,20 @@ module.exports = {
         rules: [
             { test: /\.scss?$/, loaders: ['style-loader', 'css-loader', 'sass-loader'] },
             { test: /\.css?$/, loaders: ['style-loader', 'css-loader', 'sass-loader'] },
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            babelPresetEnv,
+                            babelPresetReact
+                        ],
+                        plugins: []
+                    }
+                }
+            }
         ]
-    }
+    },
 }
