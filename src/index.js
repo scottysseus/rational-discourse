@@ -1,73 +1,45 @@
-import * as PIXI from 'pixi.js';
-import sound from 'pixi-sound';
+import {SceneManager} from "./scenes/scene";
+import {StartScene} from "./scenes/start";
+import Vue from 'vue';
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
-import { createLetter } from './letter';
 
-export const HEIGHT = 300;
-export const WIDTH = 800;
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-PIXI.settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = false;
-let app = new PIXI.Application({ width: WIDTH, height: HEIGHT });
-// document.body.appendChild(app.view);
+// Install BootstrapVue
+Vue.use(BootstrapVue)
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin)
 
-app.renderer.backgroundColor = 0x33ccff;
 
-const loader = PIXI.Loader.shared;
+// Wait for the DOM to be completely loaded before
+// trying to manipulate it.
+document.addEventListener('DOMContentLoaded', (event) => {
 
-loader.add('bunny', 'assets/bunny-sheet.png');
+    
 
-let player;
+    var app = new Vue({
+        el: '#wrapper-main',
+        data: {
+            tweets: [
+                "Purple wave is coming!",
+                "Vote Purple!",
+                "Purple is Perfect",
+                "#Purple4ever",
+                "Jobs jobs jobs!",
+                "Make Our Country Purple Again!"
+            ]
+        }
+    });
 
-let letter = createLetter('A', {x: 100, y: 10});
+    const startScene = StartScene();
 
-loader.load((loader, resources) => {
-    let frames = [];
-    for (let i = 0; i < 3; ++i) {
-        frames.push(new PIXI.Texture(resources.bunny.texture, new PIXI.Rectangle(i * 28, 0, 28, 29)));
-    }
-    player = new PIXI.AnimatedSprite(frames);
+    const sceneManager = SceneManager({
+        "start": startScene
+    });
 
-    app.stage.addChild(player);
-    player.animationSpeed = 0.2;
-    player.scale.set(-1,1);
-    player.anchor.set(0.5, 0.5);
-    player.x = 100;
-    player.y = HEIGHT - 80;
+    startScene.load(sceneManager);
 
-    app.stage.addChild(letter.sprite);
 
-    app.ticker.add(delta => render(delta));
 });
-
-function render(delta) {
-    letter.sprite.position.x += letter.speed;
-}
-
-function setupKeyboard() {
-    document.addEventListener('keydown', (event) => {
-        const keyName = event.key;
-        switch (keyName) {
-            case "ArrowLeft":
-                playerQueue.push({ type: EventTypes.LEFT_PRESSED });
-                break;
-            case "ArrowRight":
-                playerQueue.push({ type: EventTypes.RIGHT_PRESSED });
-                break;
-        }
-    }, false);
-
-    document.addEventListener('keyup', (event) => {
-        const keyName = event.key;
-        switch (keyName) {
-            case "ArrowLeft":
-                playerQueue.push({ type: EventTypes.LEFT_RELEASED });
-                break;
-            case "ArrowRight":
-                playerQueue.push({ type: EventTypes.RIGHT_RELEASED });
-                break;
-            case "ArrowUp":
-                playerQueue.push({ type: EventTypes.UP_RELEASED });
-                break;
-        }
-    }, false);
-}

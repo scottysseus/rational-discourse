@@ -2,9 +2,20 @@
     display: grid;
     justify-items: center;
     grid-template-columns: auto;
-    grid-template-rows: 50% 25% 25%;
+    grid-template-rows: 40% 25% 35%;
+    height: 100%;
 }
 
-#scene-start-menu {
+#start-menu {
+    grid-row-start: 3;
+    justify-items: center;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 20% 40% 40%;
+    height: 100%;
+}
 
+#start-menu > button {
+    display: block;
+    place-self: center;
 }

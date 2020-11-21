@@ -12,18 +12,23 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'docs')
     },
+    resolve: {
+        alias: {
+            vue: 'vue/dist/vue.js'
+        },
+    },
     plugins: [
         new CopyWebpackPlugin({
             patterns: [
                 {
                     from: 'build/assets',
                     to: 'assets'
-            
+
                 },
                 {
                     from: 'build/styles',
                     to: 'styles'
-            
+
                 }
             ]
         }),
@@ -31,5 +36,11 @@ module.exports = {
             template: 'build/index.html',
             filename: 'index.html'
         })
-    ]
+    ],
+    module: {
+        rules: [
+            { test: /\.scss?$/, loaders: ['style-loader', 'css-loader', 'sass-loader'] },
+            { test: /\.css?$/, loaders: ['style-loader', 'css-loader', 'sass-loader'] },
+        ]
+    }
 }
