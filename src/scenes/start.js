@@ -78,7 +78,7 @@ export class StartScene extends React.Component {
             this.setState({partyInvalid: true});
             return
         }
-        const startPromise = this.client.startGame({name: this.state.partyName});
+        const startPromise = this.client.startGame({name: this.state.partyName, color: this.state.color});
         
         startPromise.then(lobby => {
             this.closeStartDialog();
@@ -119,6 +119,10 @@ export class StartScene extends React.Component {
                     <Form.Group controlId="exampleForm.ControlInput1">
                         <Form.Label>Enter a name for your political party:</Form.Label>
                         <Form.Control isInvalid={this.state.partyInvalid} value={this.state.partyName} onChange={this.changePartyName} type="text" placeholder={placeholderParty} />
+                    </Form.Group>
+                    <Form.Group controlId="exampleForm.ControlInput1">
+                        <Form.Label>Pick your party's color:</Form.Label>
+                        <Form.Control type="color" value={this.state.color}/>
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>

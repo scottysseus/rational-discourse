@@ -1,5 +1,6 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import reactStringReplace from "react-string-replace";
 
 function check() {
     return <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-patch-check-fll" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -7,14 +8,19 @@ function check() {
   </svg>
 }
 
+export function handle(party) {
+    return "@" + party.replaceAll('[\s]', '_') + "Official";
+}
+
 export function Tweet(props) {
-    const partyName = props.tweet.party.replaceAll(' ', '_');
+    const partyName = handle(props.tweet.party) ;
+    const tweet = reactStringReplace(props.tweet.tweet, /([#@][^\s]*)/g, (match) => (<a style={{color: "#1eabffff"}}>{match}</a>));
     return <div className="tweet animate__animated animate__rubberBand">
         <div className="tweet-avatar">
         </div>
         <div className="tweet-account-name">{props.tweet.party} <span className="tooter-blue-fg">{check()}</span></div>
-        <div className="tweet-handle">@{partyName}Official</div>
-        <div className="tweet-text">{props.tweet.tweet}</div>
+        <div className="tweet-handle">{partyName}</div>
+        <div className="tweet-text">{tweet}</div>
         <div className="clear-fix"></div>
         <div className="tweet-controls">
             <Container>

@@ -6,6 +6,12 @@ const COLORS = [
     '#1eabffff'
 ];
 
+/* props.players = [
+    {
+        name: "player1 party",
+        color: "#2902945"
+    }
+] */
 export default function Scoreboard(props) {
     let total = 0;
     Object.keys(props.scores).forEach(name => total += props.scores[name]);

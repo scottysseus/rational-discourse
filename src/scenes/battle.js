@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import Typer from '../components/typer';
-import { Tweet } from '../components/tweet';
+import { handle, Tweet } from '../components/tweet';
 import Scoreboard from '../components/scoreboard';
 import { Modal } from 'react-bootstrap';
 import { getRandomInt } from '../utils';
 import MusicPlayer from '../musicPlayer';
 import ClipboardJS from 'clipboard';
 
-const getNewTweet = (party) => {
+const getNewTweet = (party, opponent) => {
+    const opponentHandle = handle(opponent);
     const tweets = [
         `#${party} spread the word!`,
         `${party} is infallible.`,
         `Vote ${party}!`,
+        `Don't vote ${opponentHandle}!`,
         `Jobs! We need jobs!`,
         `Hop on the ${party} train!`,
         `Liberty and justice, for some!`,
@@ -37,10 +39,10 @@ const getNewTweet = (party) => {
         `Don't trust anyone but us.`,
         `Save the suburbs!`,
         `Who needs treaties?`,
-        `Our opposition is Terribly Corrupt`,
+        `${opponentHandle} is Terribly Corrupt`,
         `${party} has a lot of smart people.`,
         `We're the only way to save the country.`,
-        `Our opposition is definitely colluding with somebody`,
+        `${opponentHandle} is definitely colluding with somebody`,
         `Think for yourself! Listen to us!`,
         `We make problems. Go away!`,
         `We have solutions you didn't want and don't need`,
@@ -54,7 +56,8 @@ const getNewTweet = (party) => {
         `Don't fact check on me.`,
         `E pluribus ${party}`,
         `${party} is tough on crime!`,
-        `The other party smells of elderberries!`
+        `${opponentHandle} smells of elderberries!`
+        `#${opponent}Gate! Emails! Pizza!`
     ]
     return tweets[getRandomInt(tweets.length)];
 };
@@ -64,16 +67,11 @@ export class BattleScene extends Component {
     constructor(props) {
         super(props);
 
-
-        let queue = [getNewTweet(props.party), getNewTweet(props.party), getNewTweet(props.party)];
-        const prompt = queue.shift();
-
         this.state = {
+            opponent: "Opponent",
             party: props.party,
-            tweetQueue: queue,
             tweetStream: [],
-            prompt: prompt,
-            typerKey: Date.now(),
+            prompt: "",
             scores: {},
             hostWaiting: props.host,
             waiting: true,
@@ -83,6 +81,7 @@ export class BattleScene extends Component {
             gameTime: 60,
             showScore: false,
             winner: "Nobody wins!",
+            players: []
         };
         this.props.client.onTweet(this.onTweetReceived.bind(this));
         this.props.client.onScoreChange(this.onScoreChanged.bind(this));
@@ -93,8 +92,20 @@ export class BattleScene extends Component {
         MusicPlayer.stopMusicGameplay();
     }
 
-    showInstructions() {
-        this.setState({ hostWaiting: false, showInstructions: true });
+    showInstructions(payload) {
+        let opponent = "Opponent";
+        p
+        payload.players.forEach(player => {
+            if (player.name !== this.state.party) {
+                opponent = player.name;
+            }
+        });
+        
+        this.setState({ hostWaiting: false, showInstructions: true, 
+            prompt: getNewTweet(this.state.party, this.state.opponent), 
+            typerKey: Date.now(), opponent: opponent,
+            players: payload.players,
+         });
         window.setTimeout(() => {
             this.startCountdown();
         }, 2000 /* 2 seconds */);
@@ -148,10 +159,8 @@ export class BattleScene extends Component {
     }
 
     onTyped(prompt) {
-        let queue = this.state.tweetQueue;
-        const newPrompt = queue.pop();
-        queue.unshift(getNewTweet(this.state.party));
-        this.setState({ prompt: newPrompt, tweetQueue: queue, typerKey: Date.now() });
+        const newPrompt = getNewTweet(this.state.party, this.state.opponent);
+        this.setState({ prompt: newPrompt, typerKey: Date.now() });
         MusicPlayer.playSfxTweet();
         this.props.client.sendTweet(prompt);
     }
@@ -171,6 +180,15 @@ export class BattleScene extends Component {
 
     homeClicked() {
         this.props.onHome();
+    }
+
+    componentDidMount() {
+        let clipboard = new ClipboardJS('#copy-lobby-code-button');
+        clipboard.on('success', function(e) {
+            let lobbyCode = document.querySelector('#lobby-code');
+            lobbyCode.classList.add("animate__animated");
+            lobbyCode.classList.add("animate__heartBeat");
+        });
     }
 
     render() {
@@ -197,7 +215,8 @@ export class BattleScene extends Component {
                     </Modal.Header>
                     <Modal.Body>
                         <p>Share this code with a friend:</p>
-                        <pre id="lobby-code">{this.props.lobbyId}</pre>
+                        <pre id="lobby-code" value={this.props.lobbyId} >{this.props.lobbyId}</pre>
+                        <div id="copy-lobby-code-button" className="toot-blue-bg toot-button" data-clipboard-target="#lobby-code">Copy</div>
                     </Modal.Body>
                     <Modal.Footer>
                     </Modal.Footer>

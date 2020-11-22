@@ -1,10 +1,11 @@
 import { io } from 'socket.io-client';
+import { config } from './config';
 
 export async function connectToServer() {
-  const socket = io('http://localhost:3001');
+  const socket = io(config.serverUrl);
   //const socket = io('https://www.nmoadev.net/node');
 
-  let lobbyId = null;
+  let currentLobbyId = null;
   let playerName = '<unset>';
   const connected = new Promise((resolve, reject) => {
     socket.on('connect', () => { 
@@ -26,12 +27,12 @@ export async function connectToServer() {
 
       const lobby = await p;
       playerName = playerInfo.name;
-      lobbyId = lobby.id;
+      currentLobbyId = lobby.id;
 
       return lobby;
     },
     /**
-     * @param lobbyId the uuid of the lobby
+     * @param toJoin the uuid of the lobby
      * @param playerInfo.name Name of the player / party
      */
     async joinGame(toJoin, playerInfo) {
@@ -41,7 +42,7 @@ export async function connectToServer() {
       
       const lobby = await p;
       playerName = playerInfo.name;
-      lobbyId = lobby.id;
+      currentLobbyId = lobby.id;
 
       return lobby;
     },
@@ -63,11 +64,18 @@ export async function connectToServer() {
     onScoreChange(callback) {
       socket.on('score-changed', callback);
     },
+    onLobbyClosed(callback) {
+      socket.on('lobby-closed', (in_lobbyId) => {
+        if (in_lobbyId === currentLobbyId) {
+          callback();
+        }
+      });
+    },
     /**
      * @param {string} tweet
      */
     sendTweet(tweet) {
-      socket.emit('tweet', {playerName, tweet, lobbyId});
+      socket.emit('tweet', {playerName, tweet, lobbyId: currentLobbyId});
     },
     /**
      * @param {function} callback

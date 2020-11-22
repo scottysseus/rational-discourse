@@ -4,6 +4,7 @@ const { Server } = require('socket.io');
 const { randomBytes } = require('crypto');
 const lobbies = new Map();
 const BATTLE_DURATION = 45000;
+const LOBBY_TIMEOUT = 5 * 60 * 1000;
 const GameStates = {
   PREGAME: 'pregame',
   AGENDA: 'agenda',
@@ -83,9 +84,18 @@ function Lobby(io) {
     gotToBattlePhase();
   };
 
+  const serializePlayers = () => {
+    const players = [];
+    for (const player of self.players.values()) {
+      players.push(player.meta);
+    }
+    return players;
+  };
+
   const gotToBattlePhase = () => {
     setTimeout(()=> {
       io.of('/').to(self.id).emit(`begin-${GameStates.BATTLE}`, {
+        players: serializePlayers(),
         agendas: self.currentRound.agendas
       });
     }, 1500);
@@ -175,7 +185,7 @@ function Lobby(io) {
     self.currentRound.scores.set(playerId, score);
     const scores = {};
     for (const player of self.players.values()) {
-      scores[player.name] = self.currentRound.scores.get(player.socket.id) || 0;
+      scores[player.meta.name] = self.currentRound.scores.get(player.socket.id) || 0;
     }
     io.in(self.id).emit('score-changed', scores);
   };
@@ -190,10 +200,11 @@ function Lobby(io) {
 
 function createLobby(io) {
   const lobby = Lobby(io);
-  lobbies.set(lobby.id, lobby);
+  const lobbyId = lobby.id;
+  lobbies.set(lobbyId, lobby);
   setTimeout(() => {
-    lobbies.delete(lobby.id);
-    
+    lobbies.delete(lobbyId);
+    io.in(lobbyId).emit('lobby-closed', lobbyId);
   }, LOBBY_TIMEOUT);
   return lobby;
 }
@@ -209,8 +220,13 @@ function scoreTweetInLobby(lobbyId, playerId, tweet) {
   }
 }
 
-function joinLobby(lobbyId, player) {
+function joinLobby(lobbyId, socket, playerMeta) {
   const lobby = getLobby(lobbyId);
+  const player = {
+    socket,
+    meta: playerMeta
+  };
+
   if (!lobby) {
     console.log("can't find lobby");
   }

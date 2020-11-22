@@ -31,11 +31,9 @@ io.on('connection', (socket) => {
 
   socket.on('start-game', async (player, callback) => {
     try {
-      player.socket = socket;
-
       const lobby = createLobby(io);
 
-      joinLobby(lobby.id, player);
+      joinLobby(lobby.id, socket, player);
       
       callback(lobby);
     } catch (error) {
@@ -45,9 +43,7 @@ io.on('connection', (socket) => {
 
   socket.on('join-game', async (lobbyId, player, callback) => {
     try {
-      player.socket = socket;
-
-      const lobby = joinLobby(lobbyId, player);
+      const lobby = joinLobby(lobbyId, socket, player);
       callback(lobby);
     } catch (error) {
       console.log(error);
