@@ -178,3 +178,13 @@ body {
 #tooter-header-text {
     float: left;
 }
+
+#pregame-modal > .modal-content {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+}
+
+.pregame-text {
+    color: white;
+    text-shadow: 2px 2px #1eabffff;
+}

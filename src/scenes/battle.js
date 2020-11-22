@@ -146,7 +146,7 @@ export class BattleScene extends Component {
                     {(() => this.state.tweetStream.map((tweet, id) => <Tweet className="tweet" tweet={tweet} key={id} />))()}
                 </div>
                 <Typer key={this.state.typerKey} prompt={this.state.prompt} onTyped={this.onTyped.bind(this)} />
-                <Modal centered backdrop="static" show={this.state.hostWaiting}>
+                <Modal id="host-modal" centered backdrop="static" show={this.state.hostWaiting}>
                     <Modal.Header>
                         <Modal.Title>Waiting for opponent...</Modal.Title>
                     </Modal.Header>
@@ -157,11 +157,11 @@ export class BattleScene extends Component {
                     <Modal.Footer>
                     </Modal.Footer>
                 </Modal>
-                <Modal show={this.state.waiting && !this.state.hostWaiting} centered backdrop="static">
-                    <Modal.Body>
-                        <div style={{width: "100%", textAlign: "center"}}>
+                <Modal id="pregame-modal" style={{backgroundColor: "rgba(0, 0, 0, 0)"}} show={this.state.waiting && !this.state.hostWaiting} centered backdrop="static">
+                    <Modal.Body style={{backgroundColor: "rgba(0, 0, 0, 0)"}}>
+                        <div style={{width: "100%", textAlign: "center", backgroundColor: "rgba(0, 0, 0, 0)"}}>
                         {
-                            this.state.showCountdown ? <h1>{this.state.countdown}</h1> : <h1>Start!</h1>
+                            this.state.showCountdown ? <h1 className="pregame-text">{this.state.countdown}</h1> : <h1 className="pregame-text">Start!</h1>
                         }
                         </div>
                     </Modal.Body>
