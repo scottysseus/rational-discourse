@@ -49,7 +49,7 @@ body {
 }
 
 #scene-battle {
-    border: 1px solid #eee;
+    /* border: 1px solid #eee; */
     padding: 14px;
 }
 
@@ -195,6 +195,6 @@ body {
 }
 
 .pregame-text {
-    color: white;
-    text-shadow: 2px 2px #1eabffff;
+    color: #1eabffff;
+    text-shadow: 2px 2px black;
 }

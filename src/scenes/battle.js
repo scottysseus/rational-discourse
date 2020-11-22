@@ -148,7 +148,7 @@ export class BattleScene extends Component {
     render() {
         return (
             <div id="scene-battle">
-                <div id="tweet-header">Win the News Cycle!</div>
+                {/* <div id="tweet-header">Win the News Cycle!</div> */}
                 <Scoreboard scores={this.state.scores} />
 
                 <div id="tooter-header">
