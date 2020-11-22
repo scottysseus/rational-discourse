@@ -1,67 +1,20 @@
-# Msg Wrektceivd
+# Rational Discourse
 
-- Sender must type each letter
--- Speed and accuracy of letter tranmission is therefore dependent on:
---- Typing speed
---- Number of typos
--- Sender must strategically "burst type" letter sequences 
+_Rational Discourse_ is a game we created for the [Area of Effect](https://aoe-event.com/about) game jam. The jam was a 48 hour event starting on 11/20/2020 as part of the broader event, which included key notes, raffles, and fundraisers.
 
-- Receiver must remember each letter received
--- Accuracy of message received is therefore dependent on:
---- Memory of receiver
---- "Speed Reading" capability of receiver
---- Ordering of letters received
---- Which letters were received (were they they the teammates or the opponents letters?)
+[> itch.io page <](https://nmoadev.itch.io/rational-discourse)
 
-- Receiver only sees "colored dots" and not the actual letters
--- The letters "blink/appear" on their screen temporarily when they are received
+[> play the game now! <](https://scottysseus.github.io/rational-discourse/)
 
+## Description
+Welcome to the _$Candidate_Name_ Campaign!
+It's your first day as a media intern at _$Political_Party_, and you are in charge of the party's official Tooter® Social Media account!
 
-# Milestone #1
-Shoot a letter across the screen.
+Compete with the _$Opposition_Party_'s intern to gain influence by seeing who can spread their party's propaganda messages the fastest!
 
-
-
-# Stories
-* An angel and demon trying to guide a knight through a dunegon, or to his death
-* _Two political operatives are trying to guide a voter through ... ?_ <-- this idea is money
-* A hostage trying to escape a forest with a killer, killer sending bad actions
-
-
-Two political operatives are competing to influence a voter! Each player wants the voter to reach their campaign rally! They compete in a series of news cycles (i.e. rounds). 
-
-In each round,
-1. The operatives pick an agenda (aka a direction sequence -->, -->, ^) they want the voter to move in.
-2. The operatives compete in a typing competition to tweet the most propaganda snippets to influence the voter.
-
-
-## Random Events
-Potential working title: **Rational Discourse**
-## Interesting Map Locations
-- Town halls
-- Fast Food Joints
-
-
-
-
-
-
-# Tasks!
-
-* Make a shitty map (Alain)
-* Mode 0: Start Screen (Scott)
-  * Start a game
-  * Join a game
-* Mode 0.1: Pregame Lobby (Lite Beers Only) (Scott)
-  * Simple instructions, wait for other player
-* Mode 1: The "Choose Your Agenda" mode / screen (Scott)
-  * Agenda Input mechanism
-* Mode 2: The "Win the News Cycle" mode /screen (Kevin)
-  * Propoganda Input Box
-* Mode 3: The "Watch The Voter" mode
-  * Voter Movement Playback
-* Backend Server (Alain)
-  * Data model
-  * Socket Io shiz
-* Generate a list of propaganda sentences for players to type.
-* Accent art for the map, buildings, trees etc.
+## Contributors
+* Alain Kuchta (Development)
+* Adam Kuchta (Writing)
+* Scott Weidenkopf (Development)
+* Kevin Gurney (Development, Art, Design of Tooter)
+* Jared Perry (Development, Music)
