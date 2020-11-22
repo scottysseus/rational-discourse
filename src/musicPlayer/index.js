@@ -11,9 +11,9 @@ const Audios = [
 export default class MusicPlayer {
     static async load() {
         this.context = this.context || new AudioContext();
-        // private. an array of AudioBuffer, which represent decoded audio files, keyed by audio name.
+        // private. a map of AudioBuffers, which represent decoded audio files, keyed by audio name.
         this.audioBuffers = {};
-        // private. an array of AudioBufferSourceNode, which represent playing sounds, keyed by audio name.
+        // private. a map of AudioBufferSourceNodes, which represent playing sounds, keyed by audio name.
         this.bufferSources = {};
         // private. enable logging and access to the class via the `window`.
         this.debug = true;
