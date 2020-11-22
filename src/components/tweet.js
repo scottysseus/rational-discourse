@@ -8,7 +8,7 @@ export function Tweet(props) {
         <div className="tweet-account-name">{partyName} <span class="tooter-blue-fg">✔</span></div>
         <div className="tweet-handle">@{partyName}Official</div>
         <div className="tweet-text">{props.tweet.tweet}</div>
-        <div>
+        <div style="clear: both;">
             <div class="tweet-control">🗩</div>
             <div class="tweet-control">⭯</div>
             <div class="tweet-control">🫀</div>

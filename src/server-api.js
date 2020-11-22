@@ -2,6 +2,7 @@ import { io } from 'socket.io-client';
 
 export async function connectToServer() {
   const socket = io('http://localhost:3001');
+  //const socket = io('https://www.nmoadev.net/node');
 
   let lobbyId = null;
   let playerName = '<unset>';
@@ -42,7 +43,7 @@ export async function connectToServer() {
       const lobby = await p;
       playerName = playerInfo.name;
       lobbyId = lobby.id;
-      
+
       return lobby;
     },
     /**

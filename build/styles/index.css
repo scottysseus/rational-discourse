@@ -19,7 +19,8 @@ body {
     image-rendering: -webkit-crisp-edges;
     image-rendering: pixelated;
     position: absolute;
-    width: 960px;
+    width: 600px;
+    height: 600px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -62,7 +63,7 @@ body {
     float: left;
     padding: 24px;
     overflow-y: auto;
-    height: 200px;
+    height: 400px;
 }
 
 #tweet-stream-header {
@@ -107,6 +108,8 @@ body {
     color: #1eabffff;
     text-align: center;
     font-size: 38px;
+    font-weight: bold;
+    margin-bottom: 24px;
 }
 
 .clear-fix {
@@ -140,11 +143,12 @@ body {
 
 .toot-button {
     width: 30%;
-    float: left;
     text-align: center;
     color: #fff;
     font-weight: bold;
     padding: 2%;
+    margin: 0px auto;
+    margin-bottom: 24px;
 }
 
 .toot-button:hover {

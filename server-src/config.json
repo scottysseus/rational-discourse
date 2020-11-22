@@ -1,3 +1,4 @@
 {
-  "corsDomain": "https://itch.io"
+  "corsDomain": "http://localhost:3000",
+  "port": 3001
 }

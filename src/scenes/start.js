@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
+import { getRandomInt } from '../utils';
 
 const MAX_PARTY_NAME_LENGTH = 16;
 function isPartyNameValid(name) {
@@ -8,6 +9,30 @@ function isPartyNameValid(name) {
     }
     return true;
 }
+
+const PARTY_NAMES = [
+    'Greenback Labor Party',
+    'National Humpback Whalers Association',
+    'Partisans for Nationalistic Hippo Breeding',
+    'Leprechauns for Licentious Liberty',
+    'Dorf-Moot Sthralthim Vac Ornaight',
+    'American Society for Benchwarming',
+    'Brotherhood of Heavy-Metal Janitors',
+    'National Party of Failed Magicians and Illusionists',
+    'United Consortium of Animal Husbanders',
+    'U.S. Confederation of Layer Cakers',
+    'Coaliton of Indebted Yoga Instructors',
+    'Party for the Advancement of Scuba',
+    'H.O.R.S.E.',
+    'Conference of Pre-Aristotelian Logicians',
+    'Corpus of Semi-Realistic Mime Impersonators',
+    'American Federation of Self-Made Criminals',
+    'United Blind Optometrists\' Party',
+    'American Congregation of Varmint Trappers',
+    'Sugar-Mama Society of America',
+
+
+];
 
 export class StartScene extends React.Component {
 
@@ -72,6 +97,7 @@ export class StartScene extends React.Component {
     }
 
     render() {
+        const placeholderParty = PARTY_NAMES[getRandomInt(PARTY_NAMES.length)];
         return <Fragment>
             <div id="tooter-header">Rational Discourse</div>
             <img id="tooter" src="./assets/tooter.png" />
@@ -84,7 +110,7 @@ export class StartScene extends React.Component {
                 <Modal.Body>
                     <Form.Group controlId="exampleForm.ControlInput1">
                         <Form.Label>Enter a name for your political party:</Form.Label>
-                        <Form.Control isInvalid={this.state.partyInvalid} value={this.state.partyName} onChange={this.changePartyName} type="text" placeholder="Greenback Labor Party" />
+                        <Form.Control isInvalid={this.state.partyInvalid} value={this.state.partyName} onChange={this.changePartyName} type="text" placeholder={placeholderParty} />
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>

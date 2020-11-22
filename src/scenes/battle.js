@@ -3,6 +3,7 @@ import Typer from '../components/typer';
 import { Tweet } from '../components/tweet';
 import Scoreboard from '../components/scoreboard';
 import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
+import { getRandomInt } from '../utils';
 const TWEETS = [
     'We are the best.',
     'A purple wave is coming!',
@@ -11,9 +12,40 @@ const TWEETS = [
     'Purple is Perfect.'
 ];
 
-function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-}
+const getNewTweet = (party) => {
+    const tweets  = [
+        `${party} is infallible.`,
+        `Vote ${party}!`,
+        `Jobs! We need jobs!`,
+        `Hop on the ${party} train!`,
+        `Liberty and justice, for some!`,
+        `${party}: A little guy for the little guys`,
+        `Can we? Yes.... Should we, though?`,
+        `Can you smell freedom?`,
+        `Fan the flames of freedom.`,
+        `Who are you going to trust?`,
+        `Don't like them? Neither do we.`,
+        `${party} is up 0.7% in the polls!`,
+        `Change is scary. Let's avoid that.`,
+        `We're the lesser of two evils`,
+        `Acceptable under the circumstances`,
+        `Befuddled incompetence`,
+        `Businesses are people too.`,
+        `Don't be sheep: join the herd!`,
+        `Repudiate the debt!`,
+        `Your children are at risk.`,
+        `We don't like what we don't understand.`,
+        `We've tried nothing and we're all out of ideas.`,
+        `Investing in our future`,
+        `Ignorance, Arrogance, Belligerence`,
+        `Don't trust anyone but us.`,
+        `Save the suburbs!`,
+        `Who needs treaties?`,
+        `Our opposition is Terribly Corrupt`,
+        `${party} has a lot of smart people.`
+    ]
+    return tweets[getRandomInt(tweets.length)];
+};
 
 export class BattleScene extends Component {
 
@@ -58,7 +90,7 @@ export class BattleScene extends Component {
     onTyped(prompt) {
         let queue = this.state.tweetQueue;
         const newPrompt = queue.pop();
-        queue.unshift(TWEETS[getRandomInt(TWEETS.length)])
+        queue.unshift(getNewTweet())
         this.setState({ prompt: newPrompt, tweetQueue: queue, typerKey: Date.now() });
         this.props.client.sendTweet(prompt);
     }
@@ -68,6 +100,8 @@ export class BattleScene extends Component {
         let tweetStream = this.state.tweetStream;
         tweetStream.push({ party: playerName, tweet: tweet });
         this.setState({ tweetStream: tweetStream });
+        let elem = document.getElementById('tweet-stream');
+        elem.scrollTop = elem.scrollHeight;
     }
 
     onScoreChanged(scores) {
@@ -94,9 +128,9 @@ export class BattleScene extends Component {
                 </div>
                 <div className="clear-fix" />
                 <Typer key={this.state.typerKey} prompt={this.state.prompt} onTyped={this.onTyped.bind(this)} />
-                <Modal centered show={this.state.hostWaiting}>
-                    <Modal.Header closeButton >
-                        <Modal.Title>Waiting for oponent...</Modal.Title>
+                <Modal centered backdrop="static" show={this.state.hostWaiting}>
+                    <Modal.Header>
+                        <Modal.Title>Waiting for opponent...</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <p>Send this code to your friend to play:</p>
