@@ -80,11 +80,11 @@ function Lobby(io) {
   };
 
   const gotToBattlePhase = () => {
-    io.of('/').to(self.id).emit(`begin-${GameStates.BATTLE}`, {
-      agendas: self.currentRound.agendas
-    });
-
-    setTimeout(goToWatchPhase, BATTLE_DURATION);
+    setTimeout(()=> {
+      io.of('/').to(self.id).emit(`begin-${GameStates.BATTLE}`, {
+        agendas: self.currentRound.agendas
+      });
+    }, 1500);
   };
 
   const goToWatchPhase = () => {

@@ -32,6 +32,8 @@ export class BattleScene extends Component {
             typerKey: Date.now(),
             scores: {},
             waiting: props.host,
+            countdown: 3,
+            showCountdown: false,
         };
         this.props.client.onTweet(this.onTweetReceived.bind(this));
         this.props.client.onScoreChange(this.onScoreChanged.bind(this));
@@ -39,34 +41,44 @@ export class BattleScene extends Component {
     }
 
     enableBattle() {
-        this.setState({waiting: false})
+        this.setState({showCountdown: true});
+        let intervalId = window.setInterval(() => {
+            let countdown = this.state.countdown;
+            countdown--;
+            this.setState({countdown: countdown}, () => {
+                if(this.state.countdown < 1) {
+                    window.clearInterval(intervalId);
+                    this.setState({waiting: false, showCountdown: false})
+                }
+            });
+        }, 1000 /*1 second*/);
     }
 
     onTyped(prompt) {
         let queue = this.state.tweetQueue;
         const newPrompt = queue.pop();
         queue.unshift(TWEETS[getRandomInt(TWEETS.length)])
-        this.setState({prompt: newPrompt, tweetQueue: queue, typerKey: Date.now()});
+        this.setState({ prompt: newPrompt, tweetQueue: queue, typerKey: Date.now() });
         this.props.client.sendTweet(prompt);
     }
 
-    onTweetReceived( { playerName, tweet }) {
+    onTweetReceived({ playerName, tweet }) {
         console.log('received tweet', tweet);
         let tweetStream = this.state.tweetStream;
-        tweetStream.push({party: playerName, tweet: tweet});
-        this.setState({tweetStream: tweetStream});
+        tweetStream.push({ party: playerName, tweet: tweet });
+        this.setState({ tweetStream: tweetStream });
     }
 
     onScoreChanged(scores) {
         console.log('received scores', scores);
-        this.setState({scores: scores});
+        this.setState({ scores: scores });
     }
 
     render() {
         return (
             <div id="scene-battle">
                 <div id="tweet-header">Win the News Cycle!</div>
-                <Scoreboard scores={this.state.scores}/>
+                <Scoreboard scores={this.state.scores} />
                 <div id="tweet-queue">
                     <div id="tweet-queue-header">Queue</div>
                     {(() => {
@@ -86,11 +98,16 @@ export class BattleScene extends Component {
                         <Modal.Title>Waiting for oponent...</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <p>Send this code to your friend to play:</p> 
+                        <p>Send this code to your friend to play:</p>
                         <pre>{this.props.lobbyId}</pre>
                     </Modal.Body>
                     <Modal.Footer>
                     </Modal.Footer>
+                </Modal>
+                <Modal show={this.state.showCountdown} centered backdrop="static">
+                    <Modal.Body>
+                        <p>{this.state.countdown}</p>
+                    </Modal.Body>
                 </Modal>
             </div>
         );

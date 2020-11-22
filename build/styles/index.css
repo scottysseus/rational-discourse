@@ -129,3 +129,10 @@ body {
 .tweet-handle {
     color: #aaa;
 }
+
+.tweet-control {
+    float: left;
+    width: 25%;
+    text-align: center;
+    color: #ccc;
+}
