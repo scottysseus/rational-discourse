@@ -190,7 +190,7 @@ export class BattleScene extends Component {
                     <Modal.Body>
                         <div style={{ width: "100%", textAlign: "center" }}>
                             <div>
-                                <h1 className="pregame-text">Spread Propaganda!</h1>
+                                <h1 className="pregame-text">Spread your party's message!</h1>
                                 <br />
                                 <h1 className="pregame-text">Type the most toots below to win!</h1>
                             </div>;

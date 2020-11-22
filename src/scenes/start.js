@@ -30,8 +30,12 @@ const PARTY_NAMES = [
     'United Blind Optometrists\' Party',
     'American Congregation of Varmint Trappers',
     'Sugar-Mama Society of America',
-
-
+    'Anti-Nebraska Party',
+    'Nonpartisan League',
+    'Concerned Citizens Party',
+    'Anti-Masonic Party',
+    'Anti-Jacksonian Party',
+    'Know Nothings'
 ];
 
 export class StartScene extends React.Component {
