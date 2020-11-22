@@ -65,6 +65,7 @@ export class StartScene extends React.Component {
 
         const joinPromise = this.client.joinGame(this.state.lobbyId, {name: this.state.partyName});
         joinPromise.then(lobby => {
+            console.log(lobby);
             this.closeJoinDialog();
             this.props.onJoin(lobby);
         });

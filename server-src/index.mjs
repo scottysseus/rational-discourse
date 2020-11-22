@@ -1,6 +1,6 @@
 import express from 'express';
 import { createServer } from 'http';
-import { createLobby, joinLobby } from './lobby.mjs';
+import { createLobby, joinLobby, scoreTweetInLobby } from './lobby.mjs';
 import {Server } from 'socket.io';
 
 const app = express();
@@ -26,6 +26,7 @@ io.on('connection', (socket) => {
   socket.on('tweet', ({playerName, tweet, lobbyId}) => {
     console.log(playerName, 'tweeted', tweet, 'to', lobbyId);
     io.in(lobbyId).emit('tweet', {playerName, tweet});
+    scoreTweetInLobby(lobbyId, socket.id, tweet);
   });
 
   socket.on('start-game', async (player, callback) => {
@@ -42,12 +43,8 @@ io.on('connection', (socket) => {
     player.socket = socket;
 
     const lobby = joinLobby(lobbyId, player);
-
+    console.log('returned', lobby);
     callback(lobby);
-  });
-
-  socket.on('echo', async (msgObject, callback) => {
-    callback(msgObject);
   });
 });
 

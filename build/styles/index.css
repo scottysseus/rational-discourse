@@ -27,7 +27,7 @@ body {
 }
 
 .tweet {
-    background-color: #eee;
+    background-color: #fff;
     border-radius: 14px;
     margin-bottom: 4px;
     padding: 10px;
@@ -61,6 +61,8 @@ body {
     width: 80%;
     float: left;
     padding: 24px;
+    overflow-y: auto;
+    height: 200px;
 }
 
 #tweet-stream-header {
@@ -113,4 +115,13 @@ body {
 .toot-blue-bg {
     background-color: #1eabffff !important;
     border: 0px !important;
+}
+
+.tweet-account-name {
+    color: #000;
+    font-weight: bold;
+}
+
+.tweet-handle {
+    color: #aaa;
 }

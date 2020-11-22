@@ -7,7 +7,6 @@ export async function connectToServer() {
   let playerName = '<unset>';
   const connected = new Promise((resolve, reject) => {
     socket.on('connect', () => { 
-      socket.emit('echo', {msg: 'foo'}, (response) => { console.log('Got this server', response)});
       console.log('Connected to Socket.io Server with id', socket.id);
       resolve();
     });
@@ -33,9 +32,9 @@ export async function connectToServer() {
      * @param lobbyId the uuid of the lobby
      * @param playerInfo.name Name of the player / party
      */
-    async joinGame(lobbyId, playerInfo) {
+    async joinGame(toJoin, playerInfo) {
       const p = new Promise((resolve, reject) => {
-        socket.emit('join-game', lobbyId, playerInfo, resolve);
+        socket.emit('join-game', toJoin, playerInfo, resolve);
       });
       
       const lobby = await p;
@@ -57,12 +56,15 @@ export async function connectToServer() {
     onEndGame(callback) {
       socket.on('begin-endgame', callback);
     },
+    onScoreChange(callback) {
+      socket.on('score-changed', callback);
+    },
     /**
      * @param {string} tweet
      */
     sendTweet(tweet) {
       console.log('Sending Tweet:', tweet);
-      socket.emit('tweet', {playerName, tweet});
+      socket.emit('tweet', {playerName, tweet, lobbyId});
     },
     /**
      * @param {function} callback

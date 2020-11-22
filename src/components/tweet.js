@@ -3,9 +3,10 @@ import { Col, Container, Row } from "react-bootstrap";
 
 export function Tweet(props) {
     const partyName = props.tweet.party.replaceAll(' ', '_');
-    return <Container className="tweet">
-        <Row>
-            <Col>image</Col><Col>@{partyName}Official</Col><Col>{props.tweet.tweet}</Col>
-        </Row>
-    </Container>
+    return <div className="tweet">
+        <div className="tweet-avatar"></div>
+        <div className="tweet-account-name">{partyName}</div>
+        <div className="tweet-handle">@{partyName}Official</div>
+        <div className="tweet-text">{props.tweet.tweet}</div>
+    </div>
 } 

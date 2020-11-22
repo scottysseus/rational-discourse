@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import Typer from '../components/typer';
 import { Tweet } from '../components/tweet';
-
+import Scoreboard from '../components/scoreboard';
+import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 const TWEETS = [
     'We are the best.',
     'A purple wave is coming!',
@@ -28,9 +29,17 @@ export class BattleScene extends Component {
             tweetQueue: queue,
             tweetStream: [],
             prompt: prompt,
-            typerKey: Date.now()
+            typerKey: Date.now(),
+            scores: {},
+            waiting: false
         };
         this.props.client.onTweet(this.onTweetReceived.bind(this));
+        this.props.client.onScoreChange(this.onScoreChanged.bind(this));
+        this.props.client.onBattleState(this.enableBattle.bind(this));
+    }
+
+    enableBattle() {
+        this.setState({waiting: false})
     }
 
     onTyped(prompt) {
@@ -48,14 +57,20 @@ export class BattleScene extends Component {
         this.setState({tweetStream: tweetStream});
     }
 
+    onScoreChanged(scores) {
+        console.log('received scores', scores);
+        this.setState({scores: scores});
+    }
+
     render() {
         return (
             <div id="scene-battle">
                 <div id="tweet-header">Win the News Cycle!</div>
+                <Scoreboard scores={this.state.scores}/>
                 <div id="tweet-queue">
                     <div id="tweet-queue-header">Queue</div>
                     {(() => {
-                        return this.state.tweetQueue.map((tweet, id) => <div className="tweet" key={id}>{tweet}</div>);
+                        this.state.tweetQueue.map((tweet, id) => <div className="tweet" key={id}>{tweet}</div>);
                     })()}
                 </div>
                 <div id="tweet-stream">
@@ -66,6 +81,18 @@ export class BattleScene extends Component {
                 </div>
                 <div className="clear-fix" />
                 <Typer key={this.state.typerKey} prompt={this.state.prompt} onTyped={this.onTyped.bind(this)} />
-            </div>);
+                <Modal centered show={this.state.waiting}>
+                    <Modal.Header closeButton >
+                        <Modal.Title>Waiting for oponent...</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>Send this code to your friend to play:</p> 
+                        <pre>{this.props.lobbyId}</pre>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        );
     }
 }

@@ -55,7 +55,7 @@ function Lobby(io) {
     id: uuid.v4(),
     players: new Map(),
     playerCount: 0,
-    currentRound: -1,
+    currentRound: Round(),
     rounds: [],
     state: GameStates.PREGAME,
     voter: {
@@ -81,7 +81,7 @@ function Lobby(io) {
 
   const gotToBattlePhase = () => {
     io.of('/').to(self.id).emit(`begin-${GameStates.BATTLE}`, {
-      agendas: self.rounds[self.currentRound].agendas
+      agendas: self.currentRound.agendas
     });
 
     setTimeout(goToWatchPhase, BATTLE_DURATION);
@@ -97,13 +97,13 @@ function Lobby(io) {
     // }
 
     // // Lookup agenda by player id
-    // const winningAgenda = self.rounds[self.currentRound].agendas(maxScore[0]);
-    // self.rounds[self.currentRound].winningAgenda = winningAgenda;
+    // const winningAgenda = self.currentRound.agendas(maxScore[0]);
+    // self.currentRound.winningAgenda = winningAgenda;
     // io.of('/').to(self.id).emit(`begin-${GameStates.WATCH}`, {
     //   winningAgenda
     // });
 
-    applyAgendaToVoter(winningAgenda);
+    // applyAgendaToVoter(winningAgenda);
 
     goToCheckGameEndPhase();
   };
@@ -150,24 +150,36 @@ function Lobby(io) {
   };
 
   const startRound = () => {
-    self.rounds.push(Round());
-    self.currentRound += 1;
+    self.currentRound = Round();
+    self.rounds.push(self.currentRound);
+    for (const playerId of self.players.keys()) {
+      self.currentRound.scores.set(playerId, 0);
+    }
+    self.currentRound.scores.set()
   };
 
   const setAgenda = (playerId, agenda) => {
-    self.rounds[self.currentRound].agendas.set(playerId, agenda);
-    if (self.rounds[self.currentRound].agendas.size == 2) {
+    self.currentRound.agendas.set(playerId, agenda);
+    if (self.currentRound.agendas.size == 2) {
       gotToBattlePhase();
     }
   };
 
-  const scoreTweet = (playerId, score) => {
-    self.rounds[self.currentRound].scores[playerId] += score;
+  const scoreTweet = (playerId, tweet) => {
+    let score = self.currentRound.scores.get(playerId);
+    score = (score || 0) + tweet.length;
+    self.currentRound.scores.set(playerId, score);
+    const scores = {};
+    for (const player of self.players.values()) {
+      scores[player.name] = self.currentRound.scores.get(player.socket.id) || 0;
+    }
+    io.in(self.id).emit('score-changed', scores);
   };
 
   return {
     id: self.id,
-    addPlayer
+    addPlayer,
+    scoreTweet
   }
   
 }
@@ -182,9 +194,19 @@ export function getLobby(lobbyId) {
   return lobbies.get(lobbyId);
 }
 
+export function scoreTweetInLobby(lobbyId, playerId, tweet) {
+  const lobby = getLobby(lobbyId);
+  if (lobby) {
+    lobby.scoreTweet(playerId, tweet);
+  }
+}
+
 export function joinLobby(lobbyId, player) {
   const lobby = getLobby(lobbyId);
+  if (!lobby) {
+    console.log("can't find lobby");
+  }
   lobby.addPlayer(player);
-  console.log('Player ', player.socket.id, ' joined lobby ', lobbyId);
+  console.log('Player ', player.socket.id, ' joined lobby ', lobby.id);
   return lobby;
 }

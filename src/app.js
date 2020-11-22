@@ -2,29 +2,45 @@ import React, { Fragment } from 'react';
 import { StartScene } from './scenes/start';
 import { BattleScene } from './scenes/battle';
 
+const Scenes = {
+  START: "start",
+  BATTLE: "battle"
+};
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      lobbyId: "",
+      scene: Scenes.START,
+    }
   }
-
 
   onStart(lobby) {
     console.log("hiding the start scene :)");
     console.log(lobby);
+    this.setState({ lobbyId: lobby.id, scene: Scenes.BATTLE });
   }
 
   onJoin(lobby) {
     console.log("hiding the start scene :)");
     console.log(lobby);
+    this.setState({ lobbyId: lobby.id, scene: Scenes.BATTLE });
   }
 
   render() {
     return (
       <Fragment>
-        <h1 id="tooter-header">tooter</h1>
-        <img id="tooter" src="./assets/tooter.png"/>
-        <StartScene client={this.props.client} onStart={this.onStart.bind(this)} onJoin={this.onJoin.bind(this)} />
-        <BattleScene client={this.props.client} />
+        <h1 id="tooter-header">rational discourse</h1>
+        <img id="tooter" src="./assets/tooter.png" style={{ display: "inline" }} />
+        {this.state.scene === Scenes.START ?
+          <StartScene client={this.props.client} onStart={this.onStart.bind(this)} onJoin={this.onJoin.bind(this)} />
+          : null
+        }
+        {this.state.scene === Scenes.BATTLE ? 
+          <BattleScene client={this.props.client} lobbyId={this.state.lobbyId} />
+          : null
+        }<BattleScene client={this.props.client} lobbyId={this.state.lobbyId} />
       </Fragment>
     );
   }
