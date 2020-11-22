@@ -1,16 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import Typer from '../components/typer';
 import { Tweet } from '../components/tweet';
 import Scoreboard from '../components/scoreboard';
-import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import { getRandomInt } from '../utils';
-const TWEETS = [
-    'We are the best.',
-    'A purple wave is coming!',
-    'Vote purple!',
-    'Jobs! We need jobs!',
-    'Purple is Perfect.'
-];
 
 const getNewTweet = (party) => {
     const tweets  = [
@@ -20,8 +13,8 @@ const getNewTweet = (party) => {
         `Hop on the ${party} train!`,
         `Liberty and justice, for some!`,
         `${party}: A little guy for the little guys`,
-        `Can we? Yes.... Should we, though?`,
-        `Can you smell freedom?`,
+        `Can we? Yes... Should we, though?`,
+        `Can you smell the freedom?`,
         `Fan the flames of freedom.`,
         `Who are you going to trust?`,
         `Don't like them? Neither do we.`,
@@ -29,7 +22,7 @@ const getNewTweet = (party) => {
         `Change is scary. Let's avoid that.`,
         `We're the lesser of two evils`,
         `Acceptable under the circumstances`,
-        `Befuddled incompetence`,
+        `Befuddled incompetence.`,
         `Businesses are people too.`,
         `Don't be sheep: join the herd!`,
         `Repudiate the debt!`,
@@ -42,7 +35,16 @@ const getNewTweet = (party) => {
         `Save the suburbs!`,
         `Who needs treaties?`,
         `Our opposition is Terribly Corrupt`,
-        `${party} has a lot of smart people.`
+        `${party} has a lot of smart people.`,
+        `The only way to save the country.`,
+        `Definitely colluding with somebody`,
+        `Think for yourself! Listen to us!`,
+        `We make problems. Go away!`,
+        `Solutions you didn't want and don't need`,
+        `We make problems go away.`,
+        `Things'll sort themselves out.`,
+        `Thinking on your behalf`,
+        `Use your anger! Vote ${party}!`,
     ]
     return tweets[getRandomInt(tweets.length)];
 };
@@ -53,11 +55,11 @@ export class BattleScene extends Component {
         super(props);
 
 
-        let queue = [...TWEETS];
+        let queue = [getNewTweet(props.party), getNewTweet(props.party), getNewTweet(props.party)];
         const prompt = queue.shift();
 
         this.state = {
-            tweets: TWEETS,
+            party: props.party,
             tweetQueue: queue,
             tweetStream: [],
             prompt: prompt,
@@ -90,7 +92,7 @@ export class BattleScene extends Component {
     onTyped(prompt) {
         let queue = this.state.tweetQueue;
         const newPrompt = queue.pop();
-        queue.unshift(getNewTweet())
+        queue.unshift(getNewTweet(this.state.party));
         this.setState({ prompt: newPrompt, tweetQueue: queue, typerKey: Date.now() });
         this.props.client.sendTweet(prompt);
     }
@@ -114,17 +116,9 @@ export class BattleScene extends Component {
             <div id="scene-battle">
                 <div id="tweet-header">Win the News Cycle!</div>
                 <Scoreboard scores={this.state.scores} />
-                <div id="tweet-queue">
-                    <div id="tweet-queue-header">Queue</div>
-                    {(() => {
-                        this.state.tweetQueue.map((tweet, id) => <div className="tweet" key={id}>{tweet}</div>);
-                    })()}
-                </div>
                 <div id="tweet-stream">
-                    <div id="tweet-stream-header">Stream</div>
-                    {(() =>
-                        this.state.tweetStream.map((tweet, id) => <Tweet className="tweet" tweet={tweet} key={id} />)
-                    )()}
+                    <div id="tooter-header">tooter</div>
+                    {(() => this.state.tweetStream.map((tweet, id) => <Tweet className="tweet" tweet={tweet} key={id} />))()}
                 </div>
                 <div className="clear-fix" />
                 <Typer key={this.state.typerKey} prompt={this.state.prompt} onTyped={this.onTyped.bind(this)} />

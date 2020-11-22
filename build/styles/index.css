@@ -102,6 +102,9 @@ body {
 
 
 #tooter {
+    display: block;
+    margin: 0px auto;
+    margin-bottom: 24px;
 }
 
 #tooter-header {
@@ -135,8 +138,6 @@ body {
 }
 
 .tweet-control {
-    float: left;
-    width: 25%;
     text-align: center;
     color: #ccc;
 }

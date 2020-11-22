@@ -14,19 +14,20 @@ export default class App extends React.Component {
       lobbyId: "",
       scene: Scenes.START,
       host: false,
+      partyName: "",
     }
   }
 
-  onStart(lobby) {
+  onStart(lobby, partyName) {
     console.log("hiding the start scene :)");
     console.log(lobby);
-    this.setState({ lobbyId: lobby.id, scene: Scenes.BATTLE, host: true });
+    this.setState({ partyName: partyName, lobbyId: lobby.id, scene: Scenes.BATTLE, host: true });
   }
 
-  onJoin(lobby) {
+  onJoin(lobby, partyName) {
     console.log("hiding the start scene :)");
     console.log(lobby);
-    this.setState({ lobbyId: lobby.id, scene: Scenes.BATTLE });
+    this.setState({ partyName: partyName, lobbyId: lobby.id, scene: Scenes.BATTLE });
   }
 
   render() {
@@ -37,7 +38,7 @@ export default class App extends React.Component {
           : null
         }
         {this.state.scene === Scenes.BATTLE ? 
-          <BattleScene host={this.state.host} client={this.props.client} lobbyId={this.state.lobbyId} />
+          <BattleScene party={this.state.partyName} host={this.state.host} client={this.props.client} lobbyId={this.state.lobbyId} />
           : null
         }
       </Fragment>

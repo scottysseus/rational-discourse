@@ -73,7 +73,7 @@ export class StartScene extends React.Component {
         
         startPromise.then(lobby => {
             this.closeStartDialog();
-            this.props.onStart(lobby);
+            this.props.onStart(lobby, this.state.partyName);
         });
     }
 
@@ -92,7 +92,7 @@ export class StartScene extends React.Component {
         joinPromise.then(lobby => {
             console.log(lobby);
             this.closeJoinDialog();
-            this.props.onJoin(lobby);
+            this.props.onJoin(lobby, this.state.partyName);
         });
     }
 
