@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { StartScene } from './scenes/start';
 import { BattleScene } from './scenes/battle';
+import MusicPlayer from './musicPlayer';
 
 const Scenes = {
   START: "start",
@@ -16,6 +17,10 @@ export default class App extends React.Component {
       host: false,
       partyName: "",
     }
+
+    MusicPlayer.load().then(() => {
+      MusicPlayer.playMusicTitle();
+    });
   }
 
   onStart(lobby, partyName) {
