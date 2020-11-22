@@ -1,6 +1,6 @@
-import uuid from 'uuid';
-import { EventEmitter } from 'events';
-import { Server } from 'socket.io';
+const uuid = require('uuid');
+const { EventEmitter } = require('events');
+const { Server } = require('socket.io');
 
 const lobbies = new Map();
 const BATTLE_DURATION = 45000;
@@ -184,24 +184,24 @@ function Lobby(io) {
   
 }
 
-export function createLobby(io) {
+function createLobby(io) {
   const lobby = Lobby(io);
   lobbies.set(lobby.id, lobby);
   return lobby;
 }
 
-export function getLobby(lobbyId) {
+function getLobby(lobbyId) {
   return lobbies.get(lobbyId);
 }
 
-export function scoreTweetInLobby(lobbyId, playerId, tweet) {
+function scoreTweetInLobby(lobbyId, playerId, tweet) {
   const lobby = getLobby(lobbyId);
   if (lobby) {
     lobby.scoreTweet(playerId, tweet);
   }
 }
 
-export function joinLobby(lobbyId, player) {
+function joinLobby(lobbyId, player) {
   const lobby = getLobby(lobbyId);
   if (!lobby) {
     console.log("can't find lobby");
@@ -210,3 +210,10 @@ export function joinLobby(lobbyId, player) {
   console.log('Player ', player.socket.id, ' joined lobby ', lobby.id);
   return lobby;
 }
+
+module.exports = {
+  createLobby,
+  getLobby,
+  scoreTweetInLobby,
+  joinLobby
+};

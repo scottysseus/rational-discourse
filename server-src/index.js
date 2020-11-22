@@ -1,7 +1,7 @@
-import express from 'express';
-import { createServer } from 'http';
-import { createLobby, joinLobby, scoreTweetInLobby } from './lobby.mjs';
-import {Server } from 'socket.io';
+const express = require('express');
+const { createServer } = require('http');
+const { createLobby, joinLobby, scoreTweetInLobby } = require('./lobby');
+const { Server } = require('socket.io');
 
 const app = express();
 const http = createServer(app);

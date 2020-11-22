@@ -73,14 +73,10 @@ export class StartScene extends React.Component {
 
     render() {
         return <Fragment>
-            <Container className="justify-content-md-center">
-                <Row className="justify-content-center">
-                    <Col className="align-self-center"><Button className="toot-blue-bg" onClick={this.openStartDialog}>Start a Game</Button></Col>
-                </Row>
-                <Row className="justify-content-center">
-                    <Col className="align-self-center"><Button className="toot-blue-bg" onClick={this.openJoinDialog}>Join a Game</Button></Col>
-                </Row>
-            </Container>
+            <div id="tooter-header">Rational Discourse</div>
+            <img id="tooter" src="./assets/tooter.png" />
+            <div className="toot-blue-bg toot-button" onClick={this.openStartDialog}>Start</div>
+            <div className="toot-blue-bg toot-button" onClick={this.openJoinDialog}>Join</div>
             <Modal centered show={this.state.startOpen} onHide={this.closeStartDialog}>
                 <Modal.Header closeButton >
                     <Modal.Title>Start a Game</Modal.Title>

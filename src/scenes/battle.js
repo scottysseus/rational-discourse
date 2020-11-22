@@ -31,7 +31,8 @@ export class BattleScene extends Component {
             prompt: prompt,
             typerKey: Date.now(),
             scores: {},
-            waiting: props.host,
+            hostWaiting: props.host,
+            waiting: true,
             countdown: 3,
             showCountdown: false,
         };
@@ -41,14 +42,14 @@ export class BattleScene extends Component {
     }
 
     enableBattle() {
-        this.setState({showCountdown: true});
+        this.setState({hostWaiting: false, showCountdown: true});
         let intervalId = window.setInterval(() => {
             let countdown = this.state.countdown;
             countdown--;
             this.setState({countdown: countdown}, () => {
                 if(this.state.countdown < 1) {
                     window.clearInterval(intervalId);
-                    this.setState({waiting: false, showCountdown: false})
+                    this.setState({hostWaiting: false, waiting: false, showCountdown: false})
                 }
             });
         }, 1000 /*1 second*/);
@@ -93,7 +94,7 @@ export class BattleScene extends Component {
                 </div>
                 <div className="clear-fix" />
                 <Typer key={this.state.typerKey} prompt={this.state.prompt} onTyped={this.onTyped.bind(this)} />
-                <Modal centered show={this.state.waiting}>
+                <Modal centered show={this.state.hostWaiting}>
                     <Modal.Header closeButton >
                         <Modal.Title>Waiting for oponent...</Modal.Title>
                     </Modal.Header>
@@ -104,9 +105,13 @@ export class BattleScene extends Component {
                     <Modal.Footer>
                     </Modal.Footer>
                 </Modal>
-                <Modal show={this.state.showCountdown} centered backdrop="static">
+                <Modal show={this.state.waiting && !this.state.hostWaiting} centered backdrop="static">
                     <Modal.Body>
-                        <p>{this.state.countdown}</p>
+                        <div style={{width: "100%", textAlign: "center"}}>
+                        {
+                            this.state.showCountdown ? <h1>{this.state.countdown}</h1> : <h1>Preparing to start...</h1>
+                        }
+                        </div>
                     </Modal.Body>
                 </Modal>
             </div>

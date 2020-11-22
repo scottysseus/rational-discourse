@@ -32,8 +32,6 @@ export default class App extends React.Component {
   render() {
     return (
       <Fragment>
-        <h1 id="tooter-header">rational discourse</h1>
-        <img id="tooter" src="./assets/tooter.png" style={{ display: "inline" }} />
         {this.state.scene === Scenes.START ?
           <StartScene client={this.props.client} onStart={this.onStart.bind(this)} onJoin={this.onJoin.bind(this)} />
           : null
