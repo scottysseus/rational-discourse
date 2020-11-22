@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 import { ProgressBar } from 'react-bootstrap';
 
 const COLORS = [
-    'purple',
-    'blue'
+    'white',
+    '#1eabffff'
 ];
 
 export default function Scoreboard(props) {
@@ -18,9 +18,9 @@ export default function Scoreboard(props) {
            {
                 (() => 
                     Object.keys(props.scores).map((name, i) => <ProgressBar key={i}
-                        now={props.scores[name] * 100} 
+                        now={props.scores[name] + 100} 
                         label={name}
-                        style={{background: COLORS[i]}}/>
+                        style={{background: COLORS[i], color: COLORS[(i + 1) % 2], padding: "3%"}}/>
                 ))()
             }
         </ProgressBar>

@@ -90,7 +90,6 @@ export class StartScene extends React.Component {
 
         const joinPromise = this.client.joinGame(this.state.lobbyId, {name: this.state.partyName});
         joinPromise.then(lobby => {
-            console.log(lobby);
             this.closeJoinDialog();
             this.props.onJoin(lobby, this.state.partyName);
         });
@@ -114,7 +113,7 @@ export class StartScene extends React.Component {
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={this.startGame.bind(this)}>Start</Button>
+                    <div className="toot-blue-bg toot-button" variant="primary" onClick={this.startGame.bind(this)}>Start</div>
                 </Modal.Footer>
             </Modal>
             <Modal centered show={this.state.joinOpen} onHide={this.closeJoinDialog}>
@@ -133,7 +132,7 @@ export class StartScene extends React.Component {
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={this.joinGame.bind(this)}>Join</Button>
+                    <div className="toot-blue-bg toot-button" variant="primary" onClick={this.joinGame.bind(this)}>Join</div>
                 </Modal.Footer>
             </Modal>
         </Fragment>

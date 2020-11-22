@@ -8,7 +8,6 @@ export async function connectToServer() {
   let playerName = '<unset>';
   const connected = new Promise((resolve, reject) => {
     socket.on('connect', () => { 
-      console.log('Connected to Socket.io Server with id', socket.id);
       resolve();
     });
   });
@@ -68,7 +67,6 @@ export async function connectToServer() {
      * @param {string} tweet
      */
     sendTweet(tweet) {
-      console.log('Sending Tweet:', tweet);
       socket.emit('tweet', {playerName, tweet, lobbyId});
     },
     /**

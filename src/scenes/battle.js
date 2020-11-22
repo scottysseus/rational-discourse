@@ -98,7 +98,6 @@ export class BattleScene extends Component {
     }
 
     onTweetReceived({ playerName, tweet }) {
-        console.log('received tweet', tweet);
         let tweetStream = this.state.tweetStream;
         tweetStream.push({ party: playerName, tweet: tweet });
         this.setState({ tweetStream: tweetStream });
@@ -107,7 +106,6 @@ export class BattleScene extends Component {
     }
 
     onScoreChanged(scores) {
-        console.log('received scores', scores);
         this.setState({ scores: scores });
     }
 
@@ -120,7 +118,6 @@ export class BattleScene extends Component {
                     <div id="tooter-header">tooter</div>
                     {(() => this.state.tweetStream.map((tweet, id) => <Tweet className="tweet" tweet={tweet} key={id} />))()}
                 </div>
-                <div className="clear-fix" />
                 <Typer key={this.state.typerKey} prompt={this.state.prompt} onTyped={this.onTyped.bind(this)} />
                 <Modal centered backdrop="static" show={this.state.hostWaiting}>
                     <Modal.Header>

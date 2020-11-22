@@ -30,14 +30,12 @@ export class AgendaScene extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log("Submitted");
   }
 
   handleChange(index, value) {
     const agenda = this.state.agenda;
     agenda[index] = value;
     this.setState({agenda});
-    console.log(this.state);
   }
 
   render() {

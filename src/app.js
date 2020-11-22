@@ -19,14 +19,10 @@ export default class App extends React.Component {
   }
 
   onStart(lobby, partyName) {
-    console.log("hiding the start scene :)");
-    console.log(lobby);
     this.setState({ partyName: partyName, lobbyId: lobby.id, scene: Scenes.BATTLE, host: true });
   }
 
   onJoin(lobby, partyName) {
-    console.log("hiding the start scene :)");
-    console.log(lobby);
     this.setState({ partyName: partyName, lobbyId: lobby.id, scene: Scenes.BATTLE });
   }
 
