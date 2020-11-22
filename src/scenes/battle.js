@@ -4,6 +4,7 @@ import { Tweet } from '../components/tweet';
 import Scoreboard from '../components/scoreboard';
 import { Modal } from 'react-bootstrap';
 import { getRandomInt } from '../utils';
+import MusicPlayer from '../musicPlayer';
 
 const getNewTweet = (party) => {
     const tweets  = [
@@ -77,6 +78,7 @@ export class BattleScene extends Component {
 
     enableBattle() {
         this.setState({hostWaiting: false, showCountdown: true});
+        MusicPlayer.playSfxCountdown();
         let intervalId = window.setInterval(() => {
             let countdown = this.state.countdown;
             countdown--;
@@ -84,6 +86,10 @@ export class BattleScene extends Component {
                 if(this.state.countdown < 1) {
                     window.clearInterval(intervalId);
                     this.setState({hostWaiting: false, waiting: false, showCountdown: false})
+                    MusicPlayer.stopMusicTitle();
+                    MusicPlayer.playMusicGameplay();
+                } else {
+                    MusicPlayer.playSfxCountdown();
                 }
             });
         }, 1000 /*1 second*/);
@@ -94,6 +100,7 @@ export class BattleScene extends Component {
         const newPrompt = queue.pop();
         queue.unshift(getNewTweet(this.state.party));
         this.setState({ prompt: newPrompt, tweetQueue: queue, typerKey: Date.now() });
+        MusicPlayer.playSfxTweet();
         this.props.client.sendTweet(prompt);
     }
 
@@ -101,6 +108,7 @@ export class BattleScene extends Component {
         let tweetStream = this.state.tweetStream;
         tweetStream.push({ party: playerName, tweet: tweet });
         this.setState({ tweetStream: tweetStream });
+        MusicPlayer.playSfxTweet();
         let elem = document.getElementById('tweet-stream');
         elem.scrollTop = elem.scrollHeight;
 
