@@ -27,6 +27,8 @@ export async function connectToServer() {
       const lobby = await p;
       playerName = playerInfo.name;
       lobbyId = lobby.id;
+
+      return lobby;
     },
     /**
      * @param lobbyId the uuid of the lobby
@@ -40,6 +42,8 @@ export async function connectToServer() {
       const lobby = await p;
       playerName = playerInfo.name;
       lobbyId = lobby.id;
+      
+      return lobby;
     },
     /**
      * @

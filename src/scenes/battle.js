@@ -31,7 +31,7 @@ export class BattleScene extends Component {
             prompt: prompt,
             typerKey: Date.now(),
             scores: {},
-            waiting: false
+            waiting: props.host,
         };
         this.props.client.onTweet(this.onTweetReceived.bind(this));
         this.props.client.onScoreChange(this.onScoreChanged.bind(this));

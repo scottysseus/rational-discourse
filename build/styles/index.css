@@ -117,6 +117,10 @@ body {
     border: 0px !important;
 }
 
+.tooter-blue-fg {
+    color: #1eabffff !important;
+}
+
 .tweet-account-name {
     color: #000;
     font-weight: bold;
