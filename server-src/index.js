@@ -5,7 +5,9 @@ const { Server } = require('socket.io');
 
 const app = express();
 const http = createServer(app);
-const config = require('./config');
+const config = {
+  "port": process.env.PORT || 3001
+};
 const io = new Server(http, {
   cors: {
     origin: '*',

@@ -1,4 +1,3 @@
-const uuid = require('uuid');
 const { EventEmitter } = require('events');
 const { Server } = require('socket.io');
 const { randomBytes } = require('crypto');

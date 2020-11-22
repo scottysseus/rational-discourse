@@ -1,3 +1,5 @@
 export const config = {
-  serverUrl: "http://localhost:3001"
+  serverUrl: process.env.NODE_ENV === 'production' ?
+    'https://rational-discourse.herokuapp.com' :
+    'http://localhost:3001'
 };
