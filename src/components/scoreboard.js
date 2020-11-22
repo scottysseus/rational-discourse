@@ -14,7 +14,7 @@ export default function Scoreboard(props) {
     }
 
     return <Fragment>
-        <ProgressBar style={{height: "20px"}}>
+        <ProgressBar style={{height: "22px", border: "1px solid #ccc"}}>
            {
                 (() => 
                     Object.keys(props.scores).map((name, i) => <ProgressBar key={i}
