@@ -8,11 +8,11 @@ const babelPresetReact = require.resolve('@babel/preset-react');
 module.exports = {
     mode: 'production',
     devServer: {
-        contentBase: 'prod',
+        contentBase: 'docs',
         port: 3000
     },
     output: {
-        path: path.resolve(__dirname, 'prod')
+        path: path.resolve(__dirname, 'docs')
     },
     resolve: {
         alias: {

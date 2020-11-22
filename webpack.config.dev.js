@@ -8,12 +8,12 @@ const babelPresetReact = require.resolve('@babel/preset-react');
 module.exports = {
     mode: 'development',
     devServer: {
-        contentBase: 'docs',
+        contentBase: 'devs',
         port: 3000
     },
     devtool: 'inline-source-map',
     output: {
-        path: path.resolve(__dirname, 'docs')
+        path: path.resolve(__dirname, 'devs')
     },
     resolve: {
         alias: {
