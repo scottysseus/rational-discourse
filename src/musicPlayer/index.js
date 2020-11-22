@@ -6,7 +6,8 @@ const Audios = [
     {
         name: 'letters',
         loop: true,
-        loopStartInSeconds: 85995.0/44100.0 // sample and samplerate
+        loopStartInSeconds: 85995.0/44100.0, // sample and samplerate
+        loopEndInSeconds: 2720512.0/44100.0 // famitracker pads with silence
     }
 ];
 
