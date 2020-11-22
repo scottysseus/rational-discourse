@@ -97,14 +97,14 @@ export class BattleScene extends Component {
         let scores = {};
         payload.players.forEach(player => {
             console.log(player);
-            scores[player.name] = 50;
+            scores[player.name] = 0;
             if (player.name !== this.state.party) {
                 opponent = player.name;
             }
         });
         
         this.setState({ hostWaiting: false, showInstructions: true, 
-            prompt: getNewTweet(this.state.party, this.state.opponent), 
+            prompt: getNewTweet(this.state.party, opponent), 
             typerKey: Date.now(), opponent: opponent,
             players: payload.players,
             scores: scores
@@ -200,12 +200,11 @@ export class BattleScene extends Component {
                 {/* <div id="tweet-header">Win the News Cycle!</div> */}
                 <Scoreboard scores={this.state.scores} players={this.state.players} />
                 <div style={{display: "flex", justifyContent: "space-between"}}>
+                    <div key={this.state.gameTime} style={{float: "left", color: "#1eabffff", fontWeight: "bold", textAlign: "center"}}>{this.state.gameTime}</div>
                     <div id="tooter-header">
                         <img className="animate__animated animate__tada animate__infinite" id="tooter-header-logo" src="./assets/tooter.svg" height="64px" />
                         <div id="tooter-header-text">tooter</div>
-                        
                     </div>
-                    <p style={{color: "#1eabffff"}}>{this.state.gameTime}</p>
                 </div>
                 <div className="clear-fix" />
                 <div id="tweet-stream">

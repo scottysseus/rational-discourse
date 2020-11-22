@@ -24,13 +24,13 @@ export default function Scoreboard(props) {
     }
 
     return <Fragment>
-        <ProgressBar style={{height: "30px", border: "1px solid #ccc"}}>
+        <ProgressBar style={{height: "30px"}}>
            {
                 (() => 
                     props.players.map((player, i) => <ProgressBar key={i}
                         now={props.scores[player.name] + 100} 
                         label={player.name}
-                        style={{background: player.color, color: invertHex(player.color), fontWeight: "bold", height: "28px", padding:"8px"}}/>
+                        style={{background: player.color, color: invertHex(player.color), fontWeight: "bold", height: "30px", padding:"8px"}}/>
                 ))()
             }
         </ProgressBar>

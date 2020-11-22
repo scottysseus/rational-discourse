@@ -7,7 +7,9 @@
 # butler/butler login
 
 # Change the value of the serverUrl
-sed -i "s/http:\/\/localhost:3000/https:\/\/www.nmoadev.net\/" src/config.js
+sed -i "s/http:\/\/localhost:3000/https:\/\/www.nmoadev.net\//" src/config.js
+
+npm install
 
 # Pack the client code and upload
 rm -f client.zip
@@ -18,7 +20,7 @@ popd
 mv prod/client.zip .
 
 # Push it to itch.io using their "butler" tool
-./butler push prod nmoadev/rational-discourse
+./butler/butler push client.zip nmoadev/rational-discourse:windows
 
 # Pack the server code and upload
 rm -f server.zip
