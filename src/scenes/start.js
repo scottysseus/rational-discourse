@@ -43,12 +43,14 @@ const PARTY_NAMES = [
     'Modern Whig Party'
 ];
 
+const placeholderParty = PARTY_NAMES[getRandomInt(PARTY_NAMES.length)];
+
 export class StartScene extends React.Component {
 
     constructor(props) {
         super(props);
         this.client = props.client;
-        this.state = { startOpen: false, joinOpen: false, partyName: "", lobbyId: "", partyInvalid: false, lobbyInvalid: false};
+        this.state = { startOpen: false, joinOpen: false, partyName: "", lobbyId: "", partyInvalid: false, lobbyInvalid: false, color: "#00ff00"};
 
         this.openStartDialog = () => { this.setState({ startOpen: true }); }
         this.closeStartDialog = () => { this.setState({ startOpen: false }); }
@@ -71,6 +73,10 @@ export class StartScene extends React.Component {
             }
             this.setState({lobbyId: event.target.value, lobbyInvalid: lobbyInvalid});
         };
+
+        this.changeColor = (event) => {
+            this.setState({color: event.target.value});
+        }
     }
 
     startGame() {
@@ -97,7 +103,7 @@ export class StartScene extends React.Component {
             return
         }
 
-        const joinPromise = this.client.joinGame(this.state.lobbyId, {name: this.state.partyName});
+        const joinPromise = this.client.joinGame(this.state.lobbyId, {name: this.state.partyName, color: this.state.color});
         joinPromise.then(lobby => {
             this.closeJoinDialog();
             this.props.onJoin(lobby, this.state.partyName);
@@ -105,7 +111,7 @@ export class StartScene extends React.Component {
     }
 
     render() {
-        const placeholderParty = PARTY_NAMES[getRandomInt(PARTY_NAMES.length)];
+        
         return <Fragment>
             <div className="animate__animated animate__rubberBand" id="tooter-header">Rational Discourse</div>
             <img className="animate__animated animate__flipInY" id="tooter" src="./assets/tooter.png" />
@@ -120,9 +126,9 @@ export class StartScene extends React.Component {
                         <Form.Label>Enter a name for your political party:</Form.Label>
                         <Form.Control isInvalid={this.state.partyInvalid} value={this.state.partyName} onChange={this.changePartyName} type="text" placeholder={placeholderParty} />
                     </Form.Group>
-                    <Form.Group controlId="exampleForm.ControlInput1">
+                    <Form.Group>
                         <Form.Label>Pick your party's color:</Form.Label>
-                        <Form.Control type="color" value={this.state.color}/>
+                        <Form.Control type="color" value={this.state.color} onChange={this.changeColor}/>
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
@@ -142,6 +148,10 @@ export class StartScene extends React.Component {
                     <Form.Group>
                         <Form.Label>Enter a name for your political party:</Form.Label>
                         <Form.Control isInvalid={this.state.partyInvalid} value={this.state.partyName} onChange={this.changePartyName} type="text" placeholder={placeholderParty} />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Pick your party's color:</Form.Label>
+                        <Form.Control type="color" value={this.state.color} onChange={this.changeColor}/>
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>

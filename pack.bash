@@ -6,6 +6,9 @@
 # unzip butler.zip -d butler
 # butler/butler login
 
+# Change the value of the serverUrl
+sed -i "s/http:\/\/localhost:3000/https:\/\/www.nmoadev.net\/" src/config.js
+
 # Pack the client code and upload
 rm -f client.zip
 npm run production
@@ -19,13 +22,7 @@ mv prod/client.zip .
 
 # Pack the server code and upload
 rm -f server.zip
+sed -i "s/3001/3000/" server-src/config.json
 zip -jr server server-src package.json package-lock.json
-scp *.zip lightsail:/opt/bitnami/projects/aoe_jam
-
-
-
-
-
-
-
-
+scp server.zip lightsail:/opt/bitnami/projects/aoe_jam
+ssh lightsail "cd /opt/bitnami/projects/aoe_jam && unzip -o server.zip && npm install --production && sudo /opt/bitnami/ctlscript.sh restart apache"

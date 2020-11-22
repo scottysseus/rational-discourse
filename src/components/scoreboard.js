@@ -6,7 +6,11 @@ const COLORS = [
     '#1eabffff'
 ];
 
-/* props.players = [
+function invertHex(hex) {
+    return (Number(`0x1${hex}`) ^ 0xFFFFFF).toString(16).substr(1).toUpperCase()
+  }
+
+/* props.players = [e
     {
         name: "player1 party",
         color: "#2902945"
@@ -20,13 +24,13 @@ export default function Scoreboard(props) {
     }
 
     return <Fragment>
-        <ProgressBar style={{height: "22px", border: "1px solid #ccc"}}>
+        <ProgressBar style={{height: "30px", border: "1px solid #ccc"}}>
            {
                 (() => 
-                    Object.keys(props.scores).map((name, i) => <ProgressBar key={i}
-                        now={props.scores[name] + 100} 
-                        label={name}
-                        style={{background: COLORS[i], color: COLORS[(i +1) % 2], height: "20px"}}/>
+                    props.players.map((player, i) => <ProgressBar key={i}
+                        now={props.scores[player.name] + 100} 
+                        label={player.name}
+                        style={{background: player.color, color: invertHex(player.color), fontWeight: "bold", height: "28px", padding:"8px"}}/>
                 ))()
             }
         </ProgressBar>

@@ -8,7 +8,7 @@ const http = createServer(app);
 const config = require('./config');
 const io = new Server(http, {
   cors: {
-    origin: config.corsDomain,
+    origin: '*',
     methods: ["GET", "POST"]
   }
 });

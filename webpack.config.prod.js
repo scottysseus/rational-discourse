@@ -19,10 +19,6 @@ module.exports = {
             vue: 'vue/dist/vue.js',
         }
     },
-    externalsType: 'script',
-    externals: {
-        './config': '/config.js'
-    },
     plugins: [
         new CopyWebpackPlugin({
             patterns: [

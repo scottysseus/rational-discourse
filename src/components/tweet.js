@@ -14,7 +14,7 @@ export function handle(party) {
 
 export function Tweet(props) {
     const partyName = handle(props.tweet.party) ;
-    const tweet = reactStringReplace(props.tweet.tweet, /([#@][^\s]*)/g, (match) => (<a style={{color: "#1eabffff"}}>{match}</a>));
+    const tweet = reactStringReplace(props.tweet.tweet, /([#@][^\s]*)/g, (match, i) => (<a key={match + i} style={{color: "#1eabffff"}}>{match}</a>));
     return <div className="tweet animate__animated animate__rubberBand">
         <div className="tweet-avatar">
         </div>

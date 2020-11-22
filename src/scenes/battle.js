@@ -56,8 +56,8 @@ const getNewTweet = (party, opponent) => {
         `Don't fact check on me.`,
         `E pluribus ${party}`,
         `${party} is tough on crime!`,
-        `${opponentHandle} smells of elderberries!`
-        `#${opponent}Gate! Emails! Pizza!`
+        `${opponentHandle} smells of elderberries!`,
+        `#${opponent}Gate! Emails! Pizza!`,
     ]
     return tweets[getRandomInt(tweets.length)];
 };
@@ -94,8 +94,10 @@ export class BattleScene extends Component {
 
     showInstructions(payload) {
         let opponent = "Opponent";
-        p
+        let scores = {};
         payload.players.forEach(player => {
+            console.log(player);
+            scores[player.name] = 50;
             if (player.name !== this.state.party) {
                 opponent = player.name;
             }
@@ -105,6 +107,7 @@ export class BattleScene extends Component {
             prompt: getNewTweet(this.state.party, this.state.opponent), 
             typerKey: Date.now(), opponent: opponent,
             players: payload.players,
+            scores: scores
          });
         window.setTimeout(() => {
             this.startCountdown();
@@ -195,7 +198,7 @@ export class BattleScene extends Component {
         return (
             <div id="scene-battle">
                 {/* <div id="tweet-header">Win the News Cycle!</div> */}
-                <Scoreboard scores={this.state.scores} />
+                <Scoreboard scores={this.state.scores} players={this.state.players} />
                 <div style={{display: "flex", justifyContent: "space-between"}}>
                     <div id="tooter-header">
                         <img className="animate__animated animate__tada animate__infinite" id="tooter-header-logo" src="./assets/tooter.svg" height="64px" />

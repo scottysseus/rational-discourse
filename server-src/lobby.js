@@ -231,7 +231,7 @@ function joinLobby(lobbyId, socket, playerMeta) {
     console.log("can't find lobby");
   }
   lobby.addPlayer(player);
-  console.log('Player ', player.socket.id, ' joined lobby ', lobby.id);
+  console.log('Player ', playerMeta, player.socket.id, ' joined lobby ', lobby.id);
   return lobby;
 }
 
