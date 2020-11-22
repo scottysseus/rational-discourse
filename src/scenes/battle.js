@@ -103,6 +103,20 @@ export class BattleScene extends Component {
         this.setState({ tweetStream: tweetStream });
         let elem = document.getElementById('tweet-stream');
         elem.scrollTop = elem.scrollHeight;
+
+        // let ding = async function () {
+        //     // AUDIO: TO BE ADDED
+        //     var audio = new Audio('');
+        //     audio.type = 'audio/wav';
+
+        //     try {
+        //         await audio.play();
+        //         console.log('Playing...');
+        //     } catch (err) {
+        //         console.log('Failed to play...' + err);
+        //     }
+        // };
+        // ding();
     }
 
     onScoreChanged(scores) {
@@ -114,8 +128,13 @@ export class BattleScene extends Component {
             <div id="scene-battle">
                 <div id="tweet-header">Win the News Cycle!</div>
                 <Scoreboard scores={this.state.scores} />
+
+                <div id="tooter-header">
+                    <img className="animate__animated animate__tada animate__infinite" id="tooter-header-logo" src="./assets/tooter.svg" height="64px"/>
+                    <div id="tooter-header-text">tooter</div>
+                </div>
+                <div className="clear-fix"/>
                 <div id="tweet-stream">
-                    <div id="tooter-header">tooter</div>
                     {(() => this.state.tweetStream.map((tweet, id) => <Tweet className="tweet" tweet={tweet} key={id} />))()}
                 </div>
                 <Typer key={this.state.typerKey} prompt={this.state.prompt} onTyped={this.onTyped.bind(this)} />
@@ -124,7 +143,7 @@ export class BattleScene extends Component {
                         <Modal.Title>Waiting for opponent...</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <p>Send this code to your friend to play:</p>
+                        <p>Share this code with a friend:</p>
                         <pre>{this.props.lobbyId}</pre>
                     </Modal.Body>
                     <Modal.Footer>
@@ -134,7 +153,7 @@ export class BattleScene extends Component {
                     <Modal.Body>
                         <div style={{width: "100%", textAlign: "center"}}>
                         {
-                            this.state.showCountdown ? <h1>{this.state.countdown}</h1> : <h1>Preparing to start...</h1>
+                            this.state.showCountdown ? <h1>{this.state.countdown}</h1> : <h1>Start!</h1>
                         }
                         </div>
                     </Modal.Body>

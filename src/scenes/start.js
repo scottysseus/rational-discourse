@@ -98,10 +98,10 @@ export class StartScene extends React.Component {
     render() {
         const placeholderParty = PARTY_NAMES[getRandomInt(PARTY_NAMES.length)];
         return <Fragment>
-            <div id="tooter-header">Rational Discourse</div>
-            <img id="tooter" src="./assets/tooter.png" />
-            <div className="toot-blue-bg toot-button" onClick={this.openStartDialog}>Start</div>
-            <div className="toot-blue-bg toot-button" onClick={this.openJoinDialog}>Join</div>
+            <div className="animate__animated animate__rubberBand" id="tooter-header">Rational Discourse</div>
+            <img className="animate__animated animate__flipInY" id="tooter" src="./assets/tooter.png" />
+            <div className="animate__animated animate__zoomInLeft toot-blue-bg toot-button" onClick={this.openStartDialog}>Start</div>
+            <div className="animate__animated animate__zoomInRight toot-blue-bg toot-button" onClick={this.openJoinDialog}>Join</div>
             <Modal centered show={this.state.startOpen} onHide={this.closeStartDialog}>
                 <Modal.Header closeButton >
                     <Modal.Title>Start a Game</Modal.Title>
@@ -122,7 +122,7 @@ export class StartScene extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                     <Form.Group controlId="exampleForm.ControlInput1">
-                        <Form.Label>Enter the lobby code:</Form.Label>
+                        <Form.Label>Enter lobby code:</Form.Label>
                         <Form.Control isInvalid={this.state.lobbyInvalid} required onChange={this.changeLobbyId} value={this.state.lobbyId} type="text"/>
                         
                     </Form.Group>

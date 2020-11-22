@@ -20,7 +20,7 @@ export default function Scoreboard(props) {
                     Object.keys(props.scores).map((name, i) => <ProgressBar key={i}
                         now={props.scores[name] + 100} 
                         label={name}
-                        style={{background: COLORS[i], color: COLORS[(i + 1) % 2], padding: "3%"}}/>
+                        style={{background: COLORS[i], color: COLORS[(i + 1) % 2], height: "64px", padding: "8px"}}/>
                 ))()
             }
         </ProgressBar>

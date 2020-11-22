@@ -33,7 +33,7 @@ export default class Typer extends React.Component {
         return <Container>
             <Row>
                 <div id="tweet-prompt" className="lead"><span id="tweet-prompt-complete">{this.state.promptComplete}</span><span id="tweet-prompt">{this.state.promptRemainig}</span></div>
-                <Form.Control ref={inputEl => (this.searchInput = inputEl)} value={this.state.typed} type="text" placeholder="Start typing your toot" onChange={this.textChangedCallback}></Form.Control>
+                <Form.Control ref={inputEl => (this.searchInput = inputEl)} value={this.state.typed} type="text" placeholder="Type your toot" onChange={this.textChangedCallback}></Form.Control>
             </Row>
         </Container>
     }
