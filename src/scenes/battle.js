@@ -153,7 +153,7 @@ export class BattleScene extends Component {
             let topScore = 0;
             let winner = "Nobody wins!";
             Object.keys(this.state.scores).forEach(party => {if(this.state.scores[party] > topScore) {
-                topScore = this.state.party;
+                topScore = this.state.scores[party];
                 winner = `${party} wins!`;
             }});
             this.setState({showScore: true, winner: winner})

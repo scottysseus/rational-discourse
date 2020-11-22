@@ -1,3 +1,5 @@
+const MainVolume = 0.3;
+
 const Audios = [
     { name: 'ding' },
     { name: 'honk' },
@@ -146,10 +148,15 @@ export default class MusicPlayer {
         }
 
         bufferSource.buffer = audioBuffer;
-        bufferSource.connect(this.context.destination);
         bufferSource.loop = Boolean(audio.loop);
         bufferSource.loopStart = audio.loopStartInSeconds || 0.0;
         bufferSource.loopEnd = audio.loopEndInSeconds || audioBuffer.duration;
+
+        const gainNode = this.context.createGain();
+        gainNode.gain.value = MainVolume;
+        bufferSource.connect(gainNode);
+        gainNode.connect(this.context.destination);
+
         this.bufferSources[name] = bufferSource;
 
         bufferSource.start();
