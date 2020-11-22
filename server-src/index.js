@@ -20,27 +20,38 @@ io.on('connection', (socket) => {
   });
 
   socket.on('tweet', ({playerName, tweet, lobbyId}) => {
-    console.log(playerName, 'tweeted', tweet, 'to', lobbyId);
-    io.in(lobbyId).emit('tweet', {playerName, tweet});
-    scoreTweetInLobby(lobbyId, socket.id, tweet);
+    try {
+      console.log(playerName, 'tweeted', tweet, 'to', lobbyId);
+      io.in(lobbyId).emit('tweet', {playerName, tweet});
+      scoreTweetInLobby(lobbyId, socket.id, tweet);
+    } catch (error) {
+      console.log(error);
+    }
   });
 
   socket.on('start-game', async (player, callback) => {
-    player.socket = socket;
+    try {
+      player.socket = socket;
 
-    const lobby = createLobby(io);
+      const lobby = createLobby(io);
 
-    joinLobby(lobby.id, player);
-    
-    callback(lobby);
+      joinLobby(lobby.id, player);
+      
+      callback(lobby);
+    } catch (error) {
+      console.log(error);
+    }
   });
 
   socket.on('join-game', async (lobbyId, player, callback) => {
-    player.socket = socket;
+    try {
+      player.socket = socket;
 
-    const lobby = joinLobby(lobbyId, player);
-    console.log('returned', lobby);
-    callback(lobby);
+      const lobby = joinLobby(lobbyId, player);
+      callback(lobby);
+    } catch (error) {
+      console.log(error);
+    }
   });
 });
 

@@ -5,6 +5,7 @@ import Scoreboard from '../components/scoreboard';
 import { Modal } from 'react-bootstrap';
 import { getRandomInt } from '../utils';
 import MusicPlayer from '../musicPlayer';
+import ClipboardJS from 'clipboard';
 
 const getNewTweet = (party) => {
     const tweets = [
@@ -88,6 +89,10 @@ export class BattleScene extends Component {
         this.props.client.onBattleState(this.showInstructions.bind(this));
     }
 
+    componentWillUnmount() {
+        MusicPlayer.stopMusicGameplay();
+    }
+
     showInstructions() {
         this.setState({ hostWaiting: false, showInstructions: true });
         window.setTimeout(() => {
@@ -158,20 +163,6 @@ export class BattleScene extends Component {
         MusicPlayer.playSfxTweet();
         let elem = document.getElementById('tweet-stream');
         elem.scrollTop = elem.scrollHeight;
-
-        // let ding = async function () {
-        //     // AUDIO: TO BE ADDED
-        //     var audio = new Audio('');
-        //     audio.type = 'audio/wav';
-
-        //     try {
-        //         await audio.play();
-        //         console.log('Playing...');
-        //     } catch (err) {
-        //         console.log('Failed to play...' + err);
-        //     }
-        // };
-        // ding();
     }
 
     onScoreChanged(scores) {
@@ -206,7 +197,7 @@ export class BattleScene extends Component {
                     </Modal.Header>
                     <Modal.Body>
                         <p>Share this code with a friend:</p>
-                        <pre>{this.props.lobbyId}</pre>
+                        <pre id="lobby-code">{this.props.lobbyId}</pre>
                     </Modal.Body>
                     <Modal.Footer>
                     </Modal.Footer>

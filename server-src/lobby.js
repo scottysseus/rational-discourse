@@ -1,7 +1,7 @@
 const uuid = require('uuid');
 const { EventEmitter } = require('events');
 const { Server } = require('socket.io');
-
+const { randomBytes } = require('crypto');
 const lobbies = new Map();
 const BATTLE_DURATION = 45000;
 const GameStates = {
@@ -46,13 +46,17 @@ function Round() {
   }
 }
 
+function LobbyId() {
+  return randomBytes(9).toString('base64');
+}
+
 /**
  * @param io {Server}
  */
 function Lobby(io) {
 
   const self = {
-    id: uuid.v4(),
+    id: LobbyId(),
     players: new Map(),
     playerCount: 0,
     currentRound: Round(),
@@ -187,6 +191,10 @@ function Lobby(io) {
 function createLobby(io) {
   const lobby = Lobby(io);
   lobbies.set(lobby.id, lobby);
+  setTimeout(() => {
+    lobbies.delete(lobby.id);
+    
+  }, LOBBY_TIMEOUT);
   return lobby;
 }
 
