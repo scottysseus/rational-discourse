@@ -12,7 +12,7 @@ export function Tweet(props) {
     return <div className="tweet animate__animated animate__rubberBand">
         <div className="tweet-avatar">
         </div>
-        <div className="tweet-account-name">{partyName} <span className="tooter-blue-fg">{check()}</span></div>
+        <div className="tweet-account-name">{props.tweet.party} <span className="tooter-blue-fg">{check()}</span></div>
         <div className="tweet-handle">@{partyName}Official</div>
         <div className="tweet-text">{props.tweet.tweet}</div>
         <div className="clear-fix"></div>

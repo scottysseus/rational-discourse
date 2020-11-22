@@ -7,7 +7,7 @@ import { getRandomInt } from '../utils';
 import MusicPlayer from '../musicPlayer';
 
 const getNewTweet = (party) => {
-    const tweets  = [
+    const tweets = [
         `${party} is infallible.`,
         `Vote ${party}!`,
         `Jobs! We need jobs!`,
@@ -17,12 +17,12 @@ const getNewTweet = (party) => {
         `Can we? Yes... Should we, though?`,
         `Can you smell the freedom?`,
         `Fan the flames of freedom.`,
-        `Who are you going to trust?`,
+        `Who else are you going to trust?`,
         `Don't like them? Neither do we.`,
         `${party} is up 0.7% in the polls!`,
         `Change is scary. Let's avoid that.`,
         `We're the lesser of two evils`,
-        `Acceptable under the circumstances`,
+        `We're acceptable under the circumstances`,
         `Befuddled incompetence.`,
         `Businesses are people too.`,
         `Don't be sheep: join the herd!`,
@@ -30,22 +30,28 @@ const getNewTweet = (party) => {
         `Your children are at risk.`,
         `We don't like what we don't understand.`,
         `We've tried nothing and we're all out of ideas.`,
-        `Investing in our future`,
+        `${party} is investing in our future`,
         `Ignorance, Arrogance, Belligerence`,
         `Don't trust anyone but us.`,
         `Save the suburbs!`,
         `Who needs treaties?`,
         `Our opposition is Terribly Corrupt`,
         `${party} has a lot of smart people.`,
-        `The only way to save the country.`,
-        `Definitely colluding with somebody`,
+        `We're the only way to save the country.`,
+        `Our opposition is definitely colluding with somebody`,
         `Think for yourself! Listen to us!`,
         `We make problems. Go away!`,
-        `Solutions you didn't want and don't need`,
+        `We have solutions you didn't want and don't need`,
         `We make problems go away.`,
         `Things'll sort themselves out.`,
-        `Thinking on your behalf`,
+        `${party}: Thinking on your behalf`,
         `Use your anger! Vote ${party}!`,
+        `Achieve utopia! Vote ${party}!`,
+        `Famous celebrities are voting ${party}`,
+        `"Vote ${party}!" -Specious Newspaper`,
+        `Don't fact check on me.`,
+        `E pluribus ${party}`,
+        `${party} is tough on crime!`
     ]
     return tweets[getRandomInt(tweets.length)];
 };
@@ -78,22 +84,22 @@ export class BattleScene extends Component {
     }
 
     showInstructions() {
-        this.setState({hostWaiting: false, showInstructions: true});
+        this.setState({ hostWaiting: false, showInstructions: true });
         window.setTimeout(() => {
             this.startBattle();
         }, 2000 /* 2 seconds */);
     }
 
     startBattle() {
-        this.setState({hostWaiting: false, showCountdown: true, showInstructions: false});
+        this.setState({ hostWaiting: false, showCountdown: true, showInstructions: false });
         MusicPlayer.playSfxCountdown();
         let intervalId = window.setInterval(() => {
             let countdown = this.state.countdown;
             countdown--;
-            this.setState({countdown: countdown}, () => {
-                if(this.state.countdown < 0) {
+            this.setState({ countdown: countdown }, () => {
+                if (this.state.countdown < 0) {
                     window.clearInterval(intervalId);
-                    this.setState({hostWaiting: false, waiting: false, showCountdown: false})
+                    this.setState({ hostWaiting: false, waiting: false, showCountdown: false })
                     MusicPlayer.stopMusicTitle();
                     MusicPlayer.playMusicGameplay();
                 } else {
@@ -146,10 +152,10 @@ export class BattleScene extends Component {
                 <Scoreboard scores={this.state.scores} />
 
                 <div id="tooter-header">
-                    <img className="animate__animated animate__tada animate__infinite" id="tooter-header-logo" src="./assets/tooter.svg" height="64px"/>
+                    <img className="animate__animated animate__tada animate__infinite" id="tooter-header-logo" src="./assets/tooter.svg" height="64px" />
                     <div id="tooter-header-text">tooter</div>
                 </div>
-                <div className="clear-fix"/>
+                <div className="clear-fix" />
                 <div id="tweet-stream">
                     {(() => this.state.tweetStream.map((tweet, id) => <Tweet className="tweet" tweet={tweet} key={id} />))()}
                 </div>
@@ -165,37 +171,29 @@ export class BattleScene extends Component {
                     <Modal.Footer>
                     </Modal.Footer>
                 </Modal>
-                <Modal dialogClassName="pregame-modal" show={this.state.showCountdown} centered backdrop="static">
+                <Modal animation={false} dialogClassName="pregame-modal" show={this.state.showCountdown} centered backdrop="static">
                     <Modal.Body>
-                        <div style={{width: "100%", textAlign: "center"}}>
-                        {
-                            (() => {
-                                if (this.state.countdown >= 1) {
-                                    return <h1 className="pregame-text">{this.state.countdown}</h1>;
-                                } else {
-                                    return <h1 className="pregame-text">Start!</h1>
-                                }
-                            })()
-                        }
-                        </div>
-                    </Modal.Body>
-                </Modal>
-                <Modal dialogClassName="pregame-modal" show={(this.state.waiting && !this.state.hostWaiting && !this.state.showCountdown) || this.state.showInstructions} centered backdrop="static">
-                    <Modal.Body>
-                        <div style={{width: "100%", textAlign: "center"}}>
+                        <div style={{ width: "100%", textAlign: "center" }}>
                             {
                                 (() => {
-                                    if (!this.state.showInstructions) {
-                                        return <h1 className="pregame-text">Loading...</h1>;
+                                    if (this.state.countdown >= 1) {
+                                        return <h1 className="pregame-text">{this.state.countdown}</h1>;
                                     } else {
-                                        return <div>
-                                            <h1 className="pregame-text">Spread Propaganda!</h1>
-                                            <br/>
-                                            <h1 className="pregame-text">Type the most toots below to win!</h1>
-                                        </div>;
+                                        return <h1 className="pregame-text">Start!</h1>
                                     }
                                 })()
                             }
+                        </div>
+                    </Modal.Body>
+                </Modal>
+                <Modal animation={false} dialogClassName="pregame-modal" show={(this.state.waiting && !this.state.hostWaiting && !this.state.showCountdown) || this.state.showInstructions} centered backdrop="static">
+                    <Modal.Body>
+                        <div style={{ width: "100%", textAlign: "center" }}>
+                            <div>
+                                <h1 className="pregame-text">Spread Propaganda!</h1>
+                                <br />
+                                <h1 className="pregame-text">Type the most toots below to win!</h1>
+                            </div>;
                         </div>
                     </Modal.Body>
                 </Modal>
