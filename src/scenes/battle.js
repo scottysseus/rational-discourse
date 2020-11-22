@@ -8,6 +8,7 @@ import MusicPlayer from '../musicPlayer';
 
 const getNewTweet = (party) => {
     const tweets = [
+        `#${party} spread the word!`,
         `${party} is infallible.`,
         `Vote ${party}!`,
         `Jobs! We need jobs!`,
@@ -51,7 +52,8 @@ const getNewTweet = (party) => {
         `"Vote ${party}!" -Specious Newspaper`,
         `Don't fact check on me.`,
         `E pluribus ${party}`,
-        `${party} is tough on crime!`
+        `${party} is tough on crime!`,
+        `The other party smells of elderberries!`
     ]
     return tweets[getRandomInt(tweets.length)];
 };
@@ -77,6 +79,9 @@ export class BattleScene extends Component {
             countdown: 3,
             showCountdown: false,
             showInstructions: false,
+            gameTime: 60,
+            showScore: false,
+            winner: "Nobody wins!",
         };
         this.props.client.onTweet(this.onTweetReceived.bind(this));
         this.props.client.onScoreChange(this.onScoreChanged.bind(this));
@@ -86,11 +91,11 @@ export class BattleScene extends Component {
     showInstructions() {
         this.setState({ hostWaiting: false, showInstructions: true });
         window.setTimeout(() => {
-            this.startBattle();
+            this.startCountdown();
         }, 2000 /* 2 seconds */);
     }
 
-    startBattle() {
+    startCountdown() {
         this.setState({ hostWaiting: false, showCountdown: true, showInstructions: false });
         MusicPlayer.playSfxCountdown();
         let intervalId = window.setInterval(() => {
@@ -99,14 +104,42 @@ export class BattleScene extends Component {
             this.setState({ countdown: countdown }, () => {
                 if (this.state.countdown < 0) {
                     window.clearInterval(intervalId);
-                    this.setState({ hostWaiting: false, waiting: false, showCountdown: false })
-                    MusicPlayer.stopMusicTitle();
-                    MusicPlayer.playMusicGameplay();
+                    this.startBattle();
                 } else {
                     MusicPlayer.playSfxCountdown();
                 }
             });
         }, 1000 /*1 second*/);
+    }
+
+    startBattle() {
+        this.setState({ hostWaiting: false, waiting: false, showCountdown: false })
+        MusicPlayer.stopMusicTitle();
+        MusicPlayer.playMusicGameplay();
+        let intervalId = window.setInterval(() => {
+            let gameTime = this.state.gameTime;
+            gameTime--;
+            this.setState({gameTime: gameTime}, () => {
+                if (this.state.gameTime < 1) {
+                    window.clearInterval(intervalId);
+                    this.showScore();
+                }
+            })
+        }, 1000)
+    }
+
+    showScore() {
+        // wait for any last score updates from the server first
+        window.setTimeout(() => {
+            let topScore = 0;
+            let winner = "Nobody wins!";
+            Object.keys(this.state.scores).forEach(party => {if(this.state.scores[party] > topScore) {
+                topScore = this.state.party;
+                winner = `${party} wins!`;
+            }});
+            this.setState({showScore: true, winner: winner})
+
+        }, 1000)
     }
 
     onTyped(prompt) {
@@ -145,15 +178,22 @@ export class BattleScene extends Component {
         this.setState({ scores: scores });
     }
 
+    homeClicked() {
+        this.props.onHome();
+    }
+
     render() {
         return (
             <div id="scene-battle">
                 {/* <div id="tweet-header">Win the News Cycle!</div> */}
                 <Scoreboard scores={this.state.scores} />
-
-                <div id="tooter-header">
-                    <img className="animate__animated animate__tada animate__infinite" id="tooter-header-logo" src="./assets/tooter.svg" height="64px" />
-                    <div id="tooter-header-text">tooter</div>
+                <div style={{display: "flex", justifyContent: "space-between"}}>
+                    <div id="tooter-header">
+                        <img className="animate__animated animate__tada animate__infinite" id="tooter-header-logo" src="./assets/tooter.svg" height="64px" />
+                        <div id="tooter-header-text">tooter</div>
+                        
+                    </div>
+                    <p style={{color: "#1eabffff"}}>{this.state.gameTime}</p>
                 </div>
                 <div className="clear-fix" />
                 <div id="tweet-stream">
@@ -189,11 +229,17 @@ export class BattleScene extends Component {
                 <Modal animation={false} dialogClassName="pregame-modal" show={(this.state.waiting && !this.state.hostWaiting && !this.state.showCountdown) || this.state.showInstructions} centered backdrop="static">
                     <Modal.Body>
                         <div style={{ width: "100%", textAlign: "center" }}>
-                            <div>
-                                <h1 className="pregame-text">Spread your party's message!</h1>
-                                <br />
-                                <h1 className="pregame-text">Type the most toots below to win!</h1>
-                            </div>;
+                            <h1 className="pregame-text">Spread your party's message!</h1>
+                            <br />
+                            <h1 className="pregame-text">Type the most toots below to win!</h1>
+                        </div>
+                    </Modal.Body>
+                </Modal>
+                <Modal animation={false} dialogClassName="pregame-modal" show={this.state.showScore} centered backdrop="static">
+                    <Modal.Body>
+                    <div style={{ width: "100%", textAlign: "center" }}>
+                            <h1 className="pregame-text">{this.state.winner}</h1>
+                            <div className="toot-blue-bg toot-button" variant="primary" onClick={this.homeClicked.bind(this)}>Home</div>
                         </div>
                     </Modal.Body>
                 </Modal>

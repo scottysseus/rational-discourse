@@ -11,16 +11,19 @@ const Scenes = {
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      lobbyId: "",
-      scene: Scenes.START,
-      host: false,
-      partyName: "",
-    }
+    this.state = this.initialState();
 
     MusicPlayer.load().then(() => {
       MusicPlayer.playMusicTitle();
     });
+  }
+  initialState() {
+    return {
+      lobbyId: "",
+      scene: Scenes.START,
+      host: false,
+      partyName: "",
+    };
   }
 
   onStart(lobby, partyName) {
@@ -31,15 +34,19 @@ export default class App extends React.Component {
     this.setState({ partyName: partyName, lobbyId: lobby.id, scene: Scenes.BATTLE });
   }
 
+  onHome() {
+    this.setState(this.initialState());
+  }
+
   render() {
     return (
       <Fragment>
         {this.state.scene === Scenes.START ?
-          <StartScene client={this.props.client} onStart={this.onStart.bind(this)} onJoin={this.onJoin.bind(this)} />
+          <StartScene key={Date.now()} client={this.props.client} onStart={this.onStart.bind(this)} onJoin={this.onJoin.bind(this)} />
           : null
         }
         {this.state.scene === Scenes.BATTLE ? 
-          <BattleScene party={this.state.partyName} host={this.state.host} client={this.props.client} lobbyId={this.state.lobbyId} />
+          <BattleScene key={Date.now()} party={this.state.partyName} host={this.state.host} client={this.props.client} lobbyId={this.state.lobbyId} onHome={this.onHome.bind(this)} />
           : null
         }
       </Fragment>

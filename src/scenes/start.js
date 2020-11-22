@@ -35,7 +35,12 @@ const PARTY_NAMES = [
     'Concerned Citizens Party',
     'Anti-Masonic Party',
     'Anti-Jacksonian Party',
-    'Know Nothings'
+    'Know Nothings',
+    'Rent Is Too Damn High Party',
+    'Nullifier Party',
+    'Silver Party',
+    'Personal Choice Party',
+    'Modern Whig Party'
 ];
 
 export class StartScene extends React.Component {
@@ -132,7 +137,7 @@ export class StartScene extends React.Component {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Enter a name for your political party:</Form.Label>
-                        <Form.Control isInvalid={this.state.partyInvalid} value={this.state.partyName} onChange={this.changePartyName} type="text" placeholder="Greenback Labor Party" />
+                        <Form.Control isInvalid={this.state.partyInvalid} value={this.state.partyName} onChange={this.changePartyName} type="text" placeholder={placeholderParty} />
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
