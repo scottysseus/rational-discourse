@@ -70,20 +70,28 @@ export class BattleScene extends Component {
             waiting: true,
             countdown: 3,
             showCountdown: false,
+            showInstructions: false,
         };
         this.props.client.onTweet(this.onTweetReceived.bind(this));
         this.props.client.onScoreChange(this.onScoreChanged.bind(this));
-        this.props.client.onBattleState(this.enableBattle.bind(this));
+        this.props.client.onBattleState(this.showInstructions.bind(this));
     }
 
-    enableBattle() {
-        this.setState({hostWaiting: false, showCountdown: true});
+    showInstructions() {
+        this.setState({hostWaiting: false, showInstructions: true});
+        window.setTimeout(() => {
+            this.startBattle();
+        }, 2000 /* 2 seconds */);
+    }
+
+    startBattle() {
+        this.setState({hostWaiting: false, showCountdown: true, showInstructions: false});
         MusicPlayer.playSfxCountdown();
         let intervalId = window.setInterval(() => {
             let countdown = this.state.countdown;
             countdown--;
             this.setState({countdown: countdown}, () => {
-                if(this.state.countdown < 1) {
+                if(this.state.countdown < 0) {
                     window.clearInterval(intervalId);
                     this.setState({hostWaiting: false, waiting: false, showCountdown: false})
                     MusicPlayer.stopMusicTitle();
@@ -157,12 +165,37 @@ export class BattleScene extends Component {
                     <Modal.Footer>
                     </Modal.Footer>
                 </Modal>
-                <Modal id="pregame-modal" style={{backgroundColor: "rgba(0, 0, 0, 0)"}} show={this.state.waiting && !this.state.hostWaiting} centered backdrop="static">
-                    <Modal.Body style={{backgroundColor: "rgba(0, 0, 0, 0)"}}>
-                        <div style={{width: "100%", textAlign: "center", backgroundColor: "rgba(0, 0, 0, 0)"}}>
+                <Modal dialogClassName="pregame-modal" show={this.state.showCountdown} centered backdrop="static">
+                    <Modal.Body>
+                        <div style={{width: "100%", textAlign: "center"}}>
                         {
-                            this.state.showCountdown ? <h1 className="pregame-text">{this.state.countdown}</h1> : <h1 className="pregame-text">Start!</h1>
+                            (() => {
+                                if (this.state.countdown >= 1) {
+                                    return <h1 className="pregame-text">{this.state.countdown}</h1>;
+                                } else {
+                                    return <h1 className="pregame-text">Start!</h1>
+                                }
+                            })()
                         }
+                        </div>
+                    </Modal.Body>
+                </Modal>
+                <Modal dialogClassName="pregame-modal" show={(this.state.waiting && !this.state.hostWaiting && !this.state.showCountdown) || this.state.showInstructions} centered backdrop="static">
+                    <Modal.Body>
+                        <div style={{width: "100%", textAlign: "center"}}>
+                            {
+                                (() => {
+                                    if (!this.state.showInstructions) {
+                                        return <h1 className="pregame-text">Loading...</h1>;
+                                    } else {
+                                        return <div>
+                                            <h1 className="pregame-text">Spread Propaganda!</h1>
+                                            <br/>
+                                            <h1 className="pregame-text">Type the most toots below to win!</h1>
+                                        </div>;
+                                    }
+                                })()
+                            }
                         </div>
                     </Modal.Body>
                 </Modal>
