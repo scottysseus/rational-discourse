@@ -198,3 +198,10 @@ body {
     color: #1eabffff;
     text-shadow: 2px 2px black;
 }
+
+#lobby-code {
+    color: #000;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
