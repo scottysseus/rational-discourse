@@ -1,6 +1,6 @@
 # Rational Discourse
 
-_Rational Discourse_ is a game we created for the [Area of Effect](https://aoe-event.com/about) game jam. The jam was a 48 hour event starting on 11/20/2020 as part of the broader event, which included key notes, raffles, and fundraisers.
+_Rational Discourse_ is a game we created for the [Area of Effect](https://aoe-event.com/about) game jam. The jam was a 48 hour event starting on 11/20/2020 as part of the broader event, which included key notes, raffles, and fundraisers. The theme this year was **Message Received** so we decided to make a game about political messaging and propaganda, and had much fun adding a humorous tone to that topic!
 
 [> itch.io page <](https://nmoadev.itch.io/rational-discourse)
 
