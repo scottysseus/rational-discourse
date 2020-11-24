@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Typer from '../components/typer';
-import { handle, Tweet } from '../components/tweet';
+import { handle, shortenedPartyName, Tweet } from '../components/tweet';
 import Scoreboard from '../components/scoreboard';
 import { Modal } from 'react-bootstrap';
 import { getRandomInt } from '../utils';
@@ -10,7 +10,7 @@ import ClipboardJS from 'clipboard';
 const getNewTweet = (party, opponent) => {
     const opponentHandle = handle(opponent);
     const tweets = [
-        `#${party} spread the word!`,
+        `#${shortenedPartyName(party)} spread the word!`,
         `${party} is infallible.`,
         `Vote ${party}!`,
         `Don't vote ${opponentHandle}!`,
@@ -57,7 +57,7 @@ const getNewTweet = (party, opponent) => {
         `E pluribus ${party}`,
         `${party} is tough on crime!`,
         `${opponentHandle} smells of elderberries!`,
-        `#${opponent}Gate! Emails! Pizza!`,
+        `#${shortenedPartyName(opponent)}Gate! Emails! Pizza!`,
     ]
     return tweets[getRandomInt(tweets.length)];
 };

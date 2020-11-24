@@ -8,8 +8,12 @@ function check() {
   </svg>
 }
 
+export function shortenedPartyName(party) {
+    return party.replaceAll(/\s/g, '_');
+}
+
 export function handle(party) {
-    return "@" + party.replaceAll('[\s]', '_') + "Official";
+    return "@" + shortenedPartyName(party) + "Official";
 }
 
 export function Tweet(props) {
