@@ -4,6 +4,47 @@
     box-sizing: border-box;
 }
 
+@media screen and (min-width: 800px) {
+    #wrapper-main {
+        border-radius: 12px;
+        width: 540px;
+        height: 610px;
+    }
+
+    #title {
+        width: 40%;
+    }
+
+    #tooter-header {
+        font-size: 38px;
+    }
+
+    #tooter-header-logo {
+        float: left;
+        height: 64px;
+    }
+}
+
+@media screen and (max-width: 799px) {
+    #wrapper-main {
+        height: 100%;
+        width: 100%;
+    }
+
+    #title {
+        width: 70%;
+    }
+
+    #tooter-header {
+        font-size: 32px;
+    }
+    
+    #tooter-header-logo {
+        float: left;
+        height: 36px;
+    }
+}
+
 html,
 body {
     margin: 0;
@@ -19,13 +60,10 @@ body {
     image-rendering: -webkit-crisp-edges;
     image-rendering: pixelated;
     position: absolute;
-    width: 540px;
-    height: 600px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     border: 1px solid #eee;
-    border-radius: 12px;
 }
 
 .tweet {
@@ -51,38 +89,23 @@ body {
 #scene-battle {
     /* border: 1px solid #eee; */
     padding: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-self: stretch;
+    height: 100%;
 }
 
-#tweet-header {
-    text-align: center;
-    font-size: 32px;
-    font-weight: bold;
-}
-
-#tweet-queue {
-    width: 20%;
-    float: left;
-    padding: 24px;
-}
-
-#tweet-queue-header {
-    text-align: center;
-    font-weight: bold;
+#typer, #battle-header {
+    flex-grow: 1;
 }
 
 #tweet-stream {
     padding: 8px 24px 8px 24px;
     overflow-y: hidden;
     overflow-x: hidden;
-    height: 400px;
-}
-
-#tweet-stream-header {
-    text-align: center;
-    font-weight: bold;
-}
-
-#tweet-input {
+    flex-basis: 200px;
+    flex-grow: 20;
 }
 
 #tweet-active {
@@ -115,12 +138,6 @@ body {
     -ms-user-select: none;
     user-select: none;
 }
-
-#tweet-input-box {
-    text-align: center;
-    font-size: 24px;
-}
-
 
 #tooter {
     display: block;
@@ -171,18 +188,36 @@ body {
     background-color: rgb(15, 145, 221) !important;
 }
 
-#tooter-header {
+#title {
     color: #1eabffff;
     text-align: center;
     font-size: 38px;
     font-weight: bold;
-    width: 40%;
     margin: 10px auto;
     overflow: hidden;
 }
 
+#tooter-header {
+    color: #1eabffff;
+    text-align: center;
+    font-weight: bold;
+    margin: 10px auto;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
 #tooter-header-logo {
     float: left;
+    height: 36px;
+}
+
+#timer {
+    float: left;
+    color: #1eabffff;
+    font-weight: bold;
+    text-align: center;
+    position: absolute;
 }
 
 #tooter-header-text {

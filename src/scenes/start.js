@@ -113,9 +113,9 @@ export class StartScene extends React.Component {
     render() {
         
         return <Fragment>
-            <div className="animate__animated animate__rubberBand" id="tooter-header">Rational Discourse</div>
+            <div className="animate__animated animate__rubberBand" id="title">Rational Discourse</div>
             <img className="animate__animated animate__flipInY" id="tooter" src="./assets/tooter.png" />
-            <div className="animate__animated animate__zoomInLeft toot-blue-bg toot-button" onClick={this.openStartDialog}>Start</div>
+            <div style={{marginTop: "35%"}} className="animate__animated animate__zoomInLeft toot-blue-bg toot-button" onClick={this.openStartDialog}>Start</div>
             <div className="animate__animated animate__zoomInRight toot-blue-bg toot-button" onClick={this.openJoinDialog}>Join</div>
             <Modal centered show={this.state.startOpen} onHide={this.closeStartDialog}>
                 <Modal.Header closeButton >
