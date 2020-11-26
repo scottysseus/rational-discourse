@@ -19,8 +19,10 @@ export default class MusicPlayer {
         || false;
 
         if (AudioContext) {
+            this.audioEnabled = true;
             this.context = this.context || new AudioContext();
         } else {
+            this.audioEnabled = false;
             this.log("audio context not supported; disabling audio");
         }
 
@@ -33,7 +35,12 @@ export default class MusicPlayer {
         // private. determines whether to block new audio from playing.
         this.muted = false;
 
-        await Promise.all(Audios.map((audio) => this.fetchAudioBuffer(audio)));
+        await Promise.all(Audios.map((audio) => this.fetchAudioBuffer(audio)))
+            .catch(error => {
+                this.log(error);
+                this.audioEnabled = false;
+                this.log("Unable to load audio; disabling audio");
+            });
         this.log('Finished loading everything.');
 
         if (this.debug) {
@@ -138,7 +145,7 @@ export default class MusicPlayer {
      * @param {string} name
      */
     static playAudio(name) {
-        if (!this.context) {
+        if (!this.audioEnabled || !this.context) {
             this.log(`Tried to play audio "${name}", but audio is unsupported`);
             return
         }
