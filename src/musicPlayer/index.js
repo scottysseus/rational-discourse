@@ -13,7 +13,17 @@ const Audios = [
 
 export default class MusicPlayer {
     static async load() {
-        this.context = this.context || new AudioContext();
+        // for compatibility
+        var AudioContext = window.AudioContext // Default
+        || window.webkitAudioContext // Safari and old versions of Chrome
+        || false;
+
+        if (AudioContext) {
+            this.context = this.context || new AudioContext();
+        } else {
+            this.log("audio context not supported; disabling audio");
+        }
+
         // private. a map of AudioBuffers, which represent decoded audio files, keyed by audio name.
         this.audioBuffers = {};
         // private. a map of AudioBufferSourceNodes, which represent playing sounds, keyed by audio name.
@@ -128,6 +138,11 @@ export default class MusicPlayer {
      * @param {string} name
      */
     static playAudio(name) {
+        if (!this.context) {
+            this.log(`Tried to play audio "${name}", but audio is unsupported`);
+            return
+        }
+
         if (this.muted) {
             this.log(`Tried to play audio "${name}", but we are muted.`);
             return;
