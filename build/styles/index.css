@@ -11,7 +11,7 @@
         height: 610px;
     }
 
-    #title {
+    #title-header {
         width: 40%;
     }
 
@@ -31,7 +31,7 @@
         width: 100%;
     }
 
-    #title {
+    #title-header {
         width: 70%;
     }
 
@@ -87,11 +87,18 @@ body {
 }
 
 #scene-battle {
-    /* border: 1px solid #eee; */
     padding: 14px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-self: stretch;
+    height: 100%;
+}
+
+#scene-start {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-self: stretch;
     height: 100%;
 }
@@ -188,7 +195,7 @@ body {
     background-color: rgb(15, 145, 221) !important;
 }
 
-#title {
+#title-header {
     color: #1eabffff;
     text-align: center;
     font-size: 38px;
