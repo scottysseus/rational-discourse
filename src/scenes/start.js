@@ -112,11 +112,15 @@ export class StartScene extends React.Component {
 
     render() {
         
-        return <Fragment>
-            <div className="animate__animated animate__rubberBand" id="tooter-header">Rational Discourse</div>
-            <img className="animate__animated animate__flipInY" id="tooter" src="./assets/tooter.png" />
-            <div className="animate__animated animate__zoomInLeft toot-blue-bg toot-button" onClick={this.openStartDialog}>Start</div>
-            <div className="animate__animated animate__zoomInRight toot-blue-bg toot-button" onClick={this.openJoinDialog}>Join</div>
+        return <div id="scene-start">
+            <div id="title">
+                <div className="animate__animated animate__rubberBand" id="title-header">Rational Discourse</div>
+                <img className="animate__animated animate__flipInY" id="tooter" src="./assets/tooter.png" />
+            </div>
+            <div id="start-menu">
+                <div style={{marginTop: "35%"}} className="animate__animated animate__zoomInLeft toot-blue-bg toot-button" onClick={this.openStartDialog}>Start</div>
+                <div className="animate__animated animate__zoomInRight toot-blue-bg toot-button" onClick={this.openJoinDialog}>Join</div>
+            </div>
             <Modal centered show={this.state.startOpen} onHide={this.closeStartDialog}>
                 <Modal.Header closeButton >
                     <Modal.Title>Start a Game</Modal.Title>
@@ -158,6 +162,6 @@ export class StartScene extends React.Component {
                     <div className="toot-blue-bg toot-button" variant="primary" onClick={this.joinGame.bind(this)}>Join</div>
                 </Modal.Footer>
             </Modal>
-        </Fragment>
+        </div>
     }
 }

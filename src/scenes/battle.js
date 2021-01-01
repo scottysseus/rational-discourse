@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Typer from '../components/typer';
 import { handle, shortenedPartyName, Tweet } from '../components/tweet';
 import Scoreboard from '../components/scoreboard';
@@ -102,13 +102,14 @@ export class BattleScene extends Component {
                 opponent = player.name;
             }
         });
-        
-        this.setState({ hostWaiting: false, showInstructions: true, 
-            prompt: getNewTweet(this.state.party, opponent), 
+
+        this.setState({
+            hostWaiting: false, showInstructions: true,
+            prompt: getNewTweet(this.state.party, opponent),
             typerKey: Date.now(), opponent: opponent,
             players: payload.players,
             scores: scores
-         });
+        });
         window.setTimeout(() => {
             this.startCountdown();
         }, 2000 /* 2 seconds */);
@@ -138,7 +139,7 @@ export class BattleScene extends Component {
         let intervalId = window.setInterval(() => {
             let gameTime = this.state.gameTime;
             gameTime--;
-            this.setState({gameTime: gameTime}, () => {
+            this.setState({ gameTime: gameTime }, () => {
                 if (this.state.gameTime < 1) {
                     window.clearInterval(intervalId);
                     this.showScore();
@@ -152,11 +153,13 @@ export class BattleScene extends Component {
         window.setTimeout(() => {
             let topScore = 0;
             let winner = "Nobody wins!";
-            Object.keys(this.state.scores).forEach(party => {if(this.state.scores[party] > topScore) {
-                topScore = this.state.scores[party];
-                winner = `${party} wins!`;
-            }});
-            this.setState({showScore: true, winner: winner})
+            Object.keys(this.state.scores).forEach(party => {
+                if (this.state.scores[party] > topScore) {
+                    topScore = this.state.scores[party];
+                    winner = `${party} wins!`;
+                }
+            });
+            this.setState({ showScore: true, winner: winner })
 
         }, 1000)
     }
@@ -187,7 +190,7 @@ export class BattleScene extends Component {
 
     componentDidMount() {
         let clipboard = new ClipboardJS('#copy-lobby-code-button');
-        clipboard.on('success', function(e) {
+        clipboard.on('success', function (e) {
             let lobbyCode = document.querySelector('#lobby-code');
             lobbyCode.classList.add("animate__animated");
             lobbyCode.classList.add("animate__heartBeat");
@@ -196,66 +199,68 @@ export class BattleScene extends Component {
 
     render() {
         return (
-            <div id="scene-battle">
-                {/* <div id="tweet-header">Win the News Cycle!</div> */}
-                <Scoreboard scores={this.state.scores} players={this.state.players} />
-                <div style={{display: "flex", justifyContent: "space-between"}}>
-                    <div key={this.state.gameTime} style={{float: "left", color: "#1eabffff", fontWeight: "bold", textAlign: "center"}}>{this.state.gameTime}</div>
-                    <div id="tooter-header">
-                        <img className="animate__animated animate__tada animate__infinite" id="tooter-header-logo" src="./assets/tooter.svg" height="64px" />
-                        <div id="tooter-header-text">tooter</div>
+            <Fragment>
+                <div id="scene-battle">
+                    <div id="battle-header">
+                        <Scoreboard scores={this.state.scores} players={this.state.players} />
+                        <div style={{ display: "flex", justifyContent: "space-between" }}>
+                            <div key={this.state.gameTime} id="timer">{this.state.gameTime}</div>
+                            <div id="tooter-header">
+                                <img className="animate__animated animate__tada animate__infinite" id="tooter-header-logo" src="./assets/tooter.svg" />
+                                <div id="tooter-header-text">tooter</div>
+                            </div>
+                        </div>
                     </div>
+                    <div id="tweet-stream">
+                        {(() => this.state.tweetStream.map((tweet, id) => <Tweet className="tweet" tweet={tweet} key={id} />))()}
+                    </div>
+                    <Typer id="typer" key={this.state.typerKey} prompt={this.state.prompt} onTyped={this.onTyped.bind(this)} />
                 </div>
-                <div className="clear-fix" />
-                <div id="tweet-stream">
-                    {(() => this.state.tweetStream.map((tweet, id) => <Tweet className="tweet" tweet={tweet} key={id} />))()}
-                </div>
-                <Typer key={this.state.typerKey} prompt={this.state.prompt} onTyped={this.onTyped.bind(this)} />
-                <Modal id="host-modal" centered backdrop="static" show={this.state.hostWaiting}>
-                    <Modal.Header>
-                        <Modal.Title>Waiting for opponent...</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <p>Share this code with a friend:</p>
-                        <pre id="lobby-code" value={this.props.lobbyId} >{this.props.lobbyId}</pre>
-                        <div id="copy-lobby-code-button" className="toot-blue-bg toot-button" data-clipboard-target="#lobby-code">Copy</div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                    </Modal.Footer>
-                </Modal>
-                <Modal animation={false} dialogClassName="pregame-modal" show={this.state.showCountdown} centered backdrop="static">
-                    <Modal.Body>
-                        <div style={{ width: "100%", textAlign: "center" }}>
-                            {
-                                (() => {
-                                    if (this.state.countdown >= 1) {
-                                        return <h1 className="pregame-text">{this.state.countdown}</h1>;
-                                    } else {
-                                        return <h1 className="pregame-text">Start!</h1>
-                                    }
-                                })()
-                            }
-                        </div>
-                    </Modal.Body>
-                </Modal>
-                <Modal animation={false} dialogClassName="pregame-modal" show={(this.state.waiting && !this.state.hostWaiting && !this.state.showCountdown) || this.state.showInstructions} centered backdrop="static">
-                    <Modal.Body>
-                        <div style={{ width: "100%", textAlign: "center" }}>
-                            <h1 className="pregame-text">Spread your party's message!</h1>
-                            <br />
-                            <h1 className="pregame-text">Type the most toots below to win!</h1>
-                        </div>
-                    </Modal.Body>
-                </Modal>
-                <Modal animation={false} dialogClassName="pregame-modal" show={this.state.showScore} centered backdrop="static">
-                    <Modal.Body>
-                    <div style={{ width: "100%", textAlign: "center" }}>
-                            <h1 className="pregame-text">{this.state.winner}</h1>
-                            <div className="toot-blue-bg toot-button" variant="primary" onClick={this.homeClicked.bind(this)}>Home</div>
-                        </div>
-                    </Modal.Body>
-                </Modal>
-            </div>
+                    <Modal id="host-modal" centered backdrop="static" show={this.state.hostWaiting}>
+                        <Modal.Header>
+                            <Modal.Title>Waiting for opponent...</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <p>Share this code with a friend:</p>
+                            <pre id="lobby-code" value={this.props.lobbyId} >{this.props.lobbyId}</pre>
+                            <div id="copy-lobby-code-button" className="toot-blue-bg toot-button" data-clipboard-target="#lobby-code">Copy</div>
+                        </Modal.Body>
+                        <Modal.Footer>
+                        </Modal.Footer>
+                    </Modal>
+                    <Modal animation={false} dialogClassName="pregame-modal" show={this.state.showCountdown} centered backdrop="static">
+                        <Modal.Body>
+                            <div style={{ width: "100%", textAlign: "center" }}>
+                                {
+                                    (() => {
+                                        if (this.state.countdown >= 1) {
+                                            return <h1 className="pregame-text">{this.state.countdown}</h1>;
+                                        } else {
+                                            return <h1 className="pregame-text">Start!</h1>
+                                        }
+                                    })()
+                                }
+                            </div>
+                        </Modal.Body>
+                    </Modal>
+                    <Modal animation={false} dialogClassName="pregame-modal" show={(this.state.waiting && !this.state.hostWaiting && !this.state.showCountdown) || this.state.showInstructions} centered backdrop="static">
+                        <Modal.Body>
+                            <div style={{ width: "100%", textAlign: "center" }}>
+                                <h1 className="pregame-text">Spread your party's message!</h1>
+                                <br />
+                                <h1 className="pregame-text">Type the most toots below to win!</h1>
+                            </div>
+                        </Modal.Body>
+                    </Modal>
+                    <Modal animation={false} dialogClassName="pregame-modal" show={this.state.showScore} centered backdrop="static">
+                        <Modal.Body>
+                            <div style={{ width: "100%", textAlign: "center" }}>
+                                <h1 className="pregame-text">{this.state.winner}</h1>
+                                <div className="toot-blue-bg toot-button" variant="primary" onClick={this.homeClicked.bind(this)}>Home</div>
+                            </div>
+                        </Modal.Body>
+                    </Modal>
+            </Fragment>
         );
     }
 }

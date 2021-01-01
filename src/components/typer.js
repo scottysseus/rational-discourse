@@ -30,7 +30,7 @@ export default class Typer extends React.Component {
     }
 
     render() {
-        return <Container>
+        return <Container id={this.props.id}>
             <Row>
                 <div id="tweet-prompt" className="lead"><span id="tweet-prompt-complete">{this.state.promptComplete}</span><span id="tweet-prompt">{this.state.promptRemainig}</span></div>
                 <Form.Control ref={inputEl => (this.searchInput = inputEl)} value={this.state.typed} type="text" placeholder="Type your toot" onChange={this.textChangedCallback}></Form.Control>

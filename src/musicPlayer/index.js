@@ -13,7 +13,19 @@ const Audios = [
 
 export default class MusicPlayer {
     static async load() {
-        this.context = this.context || new AudioContext();
+        // for compatibility
+        var AudioContext = window.AudioContext // Default
+        || window.webkitAudioContext // Safari and old versions of Chrome
+        || false;
+
+        if (AudioContext) {
+            this.audioEnabled = true;
+            this.context = this.context || new AudioContext();
+        } else {
+            this.audioEnabled = false;
+            this.log("audio context not supported; disabling audio");
+        }
+
         // private. a map of AudioBuffers, which represent decoded audio files, keyed by audio name.
         this.audioBuffers = {};
         // private. a map of AudioBufferSourceNodes, which represent playing sounds, keyed by audio name.
@@ -23,7 +35,12 @@ export default class MusicPlayer {
         // private. determines whether to block new audio from playing.
         this.muted = false;
 
-        await Promise.all(Audios.map((audio) => this.fetchAudioBuffer(audio)));
+        await Promise.all(Audios.map((audio) => this.fetchAudioBuffer(audio)))
+            .catch(error => {
+                this.log(error);
+                this.audioEnabled = false;
+                this.log("Unable to load audio; disabling audio");
+            });
         this.log('Finished loading everything.');
 
         if (this.debug) {
@@ -128,6 +145,11 @@ export default class MusicPlayer {
      * @param {string} name
      */
     static playAudio(name) {
+        if (!this.audioEnabled || !this.context) {
+            this.log(`Tried to play audio "${name}", but audio is unsupported`);
+            return
+        }
+
         if (this.muted) {
             this.log(`Tried to play audio "${name}", but we are muted.`);
             return;
