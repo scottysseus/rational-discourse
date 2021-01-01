@@ -1,7 +1,7 @@
 {
-  "name": "pixitest",
+  "name": "rational-discourse",
   "version": "1.0.0",
-  "description": "Testing pixijs",
+  "description": "Influence the masses with rapid-fire politics!",
   "scripts": {
     "start": "npm run server",
     "server": "node ./server-src/index.js",
