@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
+import React from 'react';
+import { Form, Modal } from 'react-bootstrap';
 import { getRandomInt } from '../utils';
 
 const MAX_PARTY_NAME_LENGTH = 16;
@@ -50,7 +50,16 @@ export class StartScene extends React.Component {
     constructor(props) {
         super(props);
         this.client = props.client;
-        this.state = { startOpen: false, joinOpen: false, partyName: "", lobbyId: "", partyInvalid: false, lobbyInvalid: false, color: "#00ff00"};
+
+        this.state = { 
+            startOpen: false, 
+            joinOpen: props.lobbyId || false, 
+            partyName: "", 
+            lobbyId: props.lobbyId, 
+            partyInvalid: false, 
+            lobbyInvalid: false, 
+            color: "#00ff00"
+        };
 
         this.openStartDialog = () => { this.setState({ startOpen: true }); }
         this.closeStartDialog = () => { this.setState({ startOpen: false }); }

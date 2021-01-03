@@ -1,7 +1,10 @@
 import { io } from 'socket.io-client';
 
+const apiHost = __API_HOST__;
+
+
 export async function connectToServer() {
-  const socket = io(__API_HOST__);
+  const socket = io(apiHost);
 
   let currentLobbyId = null;
   let playerName = '<unset>';

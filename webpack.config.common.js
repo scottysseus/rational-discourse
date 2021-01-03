@@ -7,8 +7,8 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const babelPresetEnv = require.resolve('@babel/preset-env');
 const babelPresetReact = require.resolve('@babel/preset-react');
 
-var appHost = "http://localhost:3000";
-var apiHost = "http://localhost:3001";
+var appHost = 'http://localhost:3000';
+var apiHost = 'http://localhost:3001';
 
 const getHosts = () => {
     switch(process.env.NODE_ENV) {
@@ -30,6 +30,10 @@ module.exports = {
         path: path.resolve(__dirname, 'docs')
     },
     plugins: [
+        new webpack.DefinePlugin({
+            __APP_HOST__: JSON.stringify(appHost),
+            __API_HOST__: JSON.stringify(apiHost),
+        }),
         new CopyWebpackPlugin({
             patterns: [
                 {
@@ -47,10 +51,6 @@ module.exports = {
         new HTMLWebpackPlugin({
             template: 'build/index.html',
             filename: 'index.html'
-        }),
-        new webpack.DefinePlugin({
-            __APP_HOST__: appHost,
-            __API_HOST__: apiHost,
         })
     ],
     module: {

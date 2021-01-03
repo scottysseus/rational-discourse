@@ -17,9 +17,12 @@ export default class App extends React.Component {
       MusicPlayer.playMusicTitle();
     });
   }
+
+
   initialState() {
+    const lobbyId = (new URL(window.location)).searchParams.get('lobby');
     return {
-      lobbyId: "",
+      lobbyId: lobbyId,
       scene: Scenes.START,
       host: false,
       partyName: "",
@@ -35,6 +38,7 @@ export default class App extends React.Component {
   }
 
   onHome() {
+    window.location.href = __APP_HOST__;
     this.setState(this.initialState());
   }
 
@@ -42,7 +46,7 @@ export default class App extends React.Component {
     return (
       <Fragment>
         {this.state.scene === Scenes.START ?
-          <StartScene key={Date.now()} client={this.props.client} onStart={this.onStart.bind(this)} onJoin={this.onJoin.bind(this)} />
+          <StartScene key={Date.now()} lobbyId={this.state.lobbyId} client={this.props.client} onStart={this.onStart.bind(this)} onJoin={this.onJoin.bind(this)} />
           : null
         }
         {this.state.scene === Scenes.BATTLE ? 

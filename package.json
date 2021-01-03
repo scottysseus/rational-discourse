@@ -1,7 +1,7 @@
 {
-  "name": "pixitest",
+  "name": "rational-discourse",
   "version": "1.0.0",
-  "description": "Testing pixijs",
+  "description": "Influence the masses with rapid-fire politics!",
   "scripts": {
     "start": "npm run server",
     "server": "node ./server-src/index.js",
@@ -40,6 +40,7 @@
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^5.7.3"
   }
 }
