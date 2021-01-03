@@ -200,7 +200,7 @@ export class BattleScene extends Component {
     }
 
     render() {
-        const lobbyUrl = appHost + "?lobby=" + this.props.lobbyId;
+        const lobbyUrl = appHost + "?lobby=" + encodeURIComponent(this.props.lobbyId);
         return (
             <Fragment>
                 <div id="scene-battle">
