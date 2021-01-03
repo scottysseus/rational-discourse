@@ -222,7 +222,7 @@ export class BattleScene extends Component {
                         </Modal.Header>
                         <Modal.Body>
                             <p>Share this URL with a friend:</p>
-                            <pre id="lobby-code" value={this.props.lobbyId} >{this.props.lobbyId}</pre>
+                            <pre id="lobby-code" value={__APP_HOST__ + this.props.lobbyId} >{this.props.lobbyId}</pre>
                             <div id="copy-lobby-code-button" className="toot-blue-bg toot-button" data-clipboard-target="#lobby-code">Copy</div>
                         </Modal.Body>
                         <Modal.Footer>
