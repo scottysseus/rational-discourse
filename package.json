@@ -7,7 +7,8 @@
     "server": "node ./server-src/index.js",
     "watch:server": "nodemon server-src/index.js",
     "build:client": "webpack --env production --mode production --config webpack.config.prod.js",
-    "watch:client": "webpack-dev-server --config webpack.config.dev.js"
+    "watch:client": "webpack-dev-server --config webpack.config.dev.js",
+    "simulate:ios": "open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app"
   },
   "keywords": [
     "game"
