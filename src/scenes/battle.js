@@ -7,6 +7,8 @@ import { getRandomInt } from '../utils';
 import MusicPlayer from '../musicPlayer';
 import ClipboardJS from 'clipboard';
 
+const appHost = __APP_HOST__;
+
 const getNewTweet = (party, opponent) => {
     const opponentHandle = handle(opponent);
     const tweets = [
@@ -198,6 +200,7 @@ export class BattleScene extends Component {
     }
 
     render() {
+        const lobbyUrl = appHost + "?lobby=" + encodeURIComponent(this.props.lobbyId);
         return (
             <Fragment>
                 <div id="scene-battle">
@@ -221,8 +224,8 @@ export class BattleScene extends Component {
                             <Modal.Title>Waiting for opponent...</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <p>Share this code with a friend:</p>
-                            <pre id="lobby-code" value={this.props.lobbyId} >{this.props.lobbyId}</pre>
+                            <p>Share this URL with a friend:</p>
+                            <pre id="lobby-code" value={lobbyUrl} >{lobbyUrl}</pre>
                             <div id="copy-lobby-code-button" className="toot-blue-bg toot-button" data-clipboard-target="#lobby-code">Copy</div>
                         </Modal.Body>
                         <Modal.Footer>

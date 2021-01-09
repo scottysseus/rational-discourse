@@ -1,9 +1,10 @@
 import { io } from 'socket.io-client';
-import { config } from './config';
+
+const apiHost = __API_HOST__;
+
 
 export async function connectToServer() {
-  const socket = io(config.serverUrl);
-  //const socket = io('https://www.nmoadev.net/node');
+  const socket = io(apiHost);
 
   let currentLobbyId = null;
   let playerName = '<unset>';
