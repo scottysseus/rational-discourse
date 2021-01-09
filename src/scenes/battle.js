@@ -169,7 +169,6 @@ export class BattleScene extends Component {
     onTyped(prompt) {
         const newPrompt = getNewTweet(this.state.party, this.state.opponent);
         this.setState({ prompt: newPrompt, typerKey: Date.now() });
-        MusicPlayer.playSfxTweet();
         this.props.client.sendTweet(prompt);
     }
 
