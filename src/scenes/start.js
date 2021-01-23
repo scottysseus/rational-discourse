@@ -10,6 +10,16 @@ function isPartyNameValid(name) {
     return true;
 }
 
+const randomColor = () => {
+    let color = '#';
+    for (let i = 0; i < 6; i++){
+       const random = Math.random();
+       const bit = (random * 16) | 0;
+       color += (bit).toString(16);
+    };
+    return color;
+ };
+
 const PARTY_NAMES = [
     'Greenback Labor Party',
     'National Humpback Whalers Association',
@@ -58,7 +68,7 @@ export class StartScene extends React.Component {
             lobbyId: props.lobbyId, 
             partyInvalid: false, 
             lobbyInvalid: false, 
-            color: "#00ff00"
+            color: randomColor()
         };
 
         this.openStartDialog = () => { this.setState({ startOpen: true }); }
