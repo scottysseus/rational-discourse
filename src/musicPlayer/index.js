@@ -125,8 +125,16 @@ export default class MusicPlayer {
         const url = `./assets/audio/${name}.ogg`;
         const response = await fetch(url);
         const arrayBuffer = await response.arrayBuffer();
-        const audioBuffer = await this.context.decodeAudioData(arrayBuffer);
 
+        let audioBuffer;
+        const decodePromise = new Promise((resolve) => {
+            this.context.decodeAudioData(arrayBuffer, buffer => {
+                audioBuffer = buffer
+                resolve();
+            });
+        });
+
+        await decodePromise;
         this.audioBuffers[name] = audioBuffer;
         this.log(`Finished loading ${name}`);
     }
