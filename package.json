@@ -15,10 +15,6 @@
     "game"
   ],
   "author": "scottysseus",
-  "dependencies": {
-    "express": "^4.17.1",
-    "socket.io": "^3.0.3"
-  },
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/plugin-transform-runtime": "^7.12.1",
