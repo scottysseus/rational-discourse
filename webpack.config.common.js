@@ -8,21 +8,15 @@ const babelPresetEnv = require.resolve('@babel/preset-env');
 const babelPresetReact = require.resolve('@babel/preset-react');
 
 const getHosts = (mode) => {
-    var appHost = 'http://localhost:3000';
-    var apiHost = 'http://localhost:3001';
+    const isProd = mode === 'production';
+    const appHost = isProd ?
+        'https://scottysseus.github.io/rational-discourse/' :
+        'http://localhost:3000';
+    const apiHost = isProd ?
+        'https://rational-discourse.fly.dev' :
+        'http://localhost:8080';
 
-    switch(mode) {
-        case 'production':
-            appHost = 'https://scottysseus.github.io/rational-discourse/';
-            apiHost = 'https://rational-discourse.herokuapp.com';
-            break;
-        default:
-            appHost = 'http://localhost:3000';
-            apiHost = "http://localhost:3001";
-            break;
-    }
-
-    return {appHost, apiHost};
+    return { appHost, apiHost };
 };
 
 module.exports = env => {
@@ -41,19 +35,19 @@ module.exports = env => {
             new CopyWebpackPlugin({
                 patterns: [
                     {
-                        from: 'build/assets',
+                        from: 'static/assets',
                         to: 'assets'
 
                     },
                     {
-                        from: 'build/styles',
+                        from: 'static/styles',
                         to: 'styles'
 
                     }
                 ]
             }),
             new HTMLWebpackPlugin({
-                template: 'build/index.html',
+                template: 'static/index.html',
                 filename: 'index.html'
             })
         ],
