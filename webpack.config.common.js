@@ -13,7 +13,7 @@ const getHosts = (mode) => {
         'https://scottysseus.github.io/rational-discourse/' :
         'http://localhost:3000';
     const apiHost = isProd ?
-        'https://rational-discourse.herokuapp.com' :
+        'https://rational-discourse.fly.dev' :
         'http://localhost:8080';
 
     return { appHost, apiHost };
