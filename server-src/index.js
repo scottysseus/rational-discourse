@@ -6,7 +6,7 @@ const { Server } = require('socket.io');
 const app = express();
 const http = createServer(app);
 const config = {
-  "port": process.env.PORT || 3001
+  "port": process.env.PORT || 8080
 };
 const io = new Server(http, {
   cors: {
@@ -36,7 +36,7 @@ io.on('connection', (socket) => {
       const lobby = createLobby(io);
 
       joinLobby(lobby.id, socket, player);
-      
+
       callback(lobby);
     } catch (error) {
       console.log(error);
