@@ -41,19 +41,19 @@ module.exports = env => {
             new CopyWebpackPlugin({
                 patterns: [
                     {
-                        from: 'build/assets',
+                        from: 'static/assets',
                         to: 'assets'
 
                     },
                     {
-                        from: 'build/styles',
+                        from: 'static/styles',
                         to: 'styles'
 
                     }
                 ]
             }),
             new HTMLWebpackPlugin({
-                template: 'build/index.html',
+                template: 'static/index.html',
                 filename: 'index.html'
             })
         ],
